@@ -1,0 +1,53 @@
+[versions]
+fabric-accessWidener = "2.1.0"
+fabric-mappingIo = "0.5.0"
+fabric-tinyRemapper = "0.10.0"
+fabric-unpick = "2.3.1"
+
+asm = "9.6"
+checkerFramework = "3.42.0"
+gson = "2.10.1"
+guava = "33.0.0-jre"
+jetbrainsAnnotations = "24.1.0"
+slf4j = "1.7.0"
+vineflower = "1.9.3"
+
+junit = "5.10.1"
+
+shadow = "8.1.1"
+
+[libraries]
+fabric-accessWidener = { module = "net.fabricmc:access-widener", version.ref = "fabric-accessWidener" }
+fabric-mappingIo = { module = "net.fabricmc:mapping-io", version.ref = "fabric-mappingIo" }
+fabric-tinyRemapper = { module = "net.fabricmc:tiny-remapper", version.ref = "fabric-tinyRemapper" }
+fabric-unpickFormatUtils = { module = "net.fabricmc.unpick:unpick-format-utils", version.ref = "fabric-unpick" }
+
+asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
+asm-analysis = { module = "org.ow2.asm:asm-analysis", version.ref = "asm" }
+asm-commons = { module = "org.ow2.asm:asm-commons", version.ref = "asm" }
+asm-tree = { module = "org.ow2.asm:asm-tree", version.ref = "asm" }
+asm-util = { module = "org.ow2.asm:asm-util", version.ref = "asm" }
+
+checkerFramework = { module = "org.checkerframework:checker-qual", version.ref = "checkerFramework" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+jetbrainsAnnotations = { module = "org.jetbrains:annotations", version.ref = "jetbrainsAnnotations" }
+slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
+vineflower = { module = "org.vineflower:vineflower", version.ref = "vineflower" }
+
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
+
+[bundles]
+test = ["junit-jupiter-api", "junit-jupiter-params"]
+testRuntime = ["junit-jupiter-engine"]
+
+# Dependencies
+unshadowedDeps = [
+    "asm", "asm-analysis", "asm-commons", "asm-tree", "asm-util", "gson"
+]
+
+[plugins]
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }

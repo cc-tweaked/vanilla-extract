@@ -1,0 +1,16 @@
+*.jar
+*.zip
+
+/.idea
+.gradle
+
+/out
+/build
+/buildSrc/out
+/buildSrc/build
+/projects/*/out
+/projects/*/build
+
+
+/projects/plugin/src/test/resources/tests/*/build
+/projects/core/src/test/resources/mirror/
