@@ -1,10 +1,9 @@
 # Vanilla Extract
-<figure align="center">
+<p align="center">
 <img src="docs/tumblr.png"
   alt="A screenshot of a Tumblr poll titled 'Best Minecraft Gradle Plugin?'. Vanilla extract sits at 100% of the vote."
   title="A hypothetical tumblr poll." />
-  <figcaption>A hypothetical tumblr poll.</figcaption>
-</figure>
+</p>
 
 Vanilla Extract is a Gradle plugin for setting up a vanilla Minecraft project,
 similar to [VanillaGradle]. It offers a couple of features that are useful for
