@@ -10,6 +10,8 @@ import org.gradle.api.Project;
 import org.gradle.api.provider.Provider;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Configuration for our {@linkplain DecompileTask decompile task}.
@@ -17,6 +19,7 @@ import java.io.IOException;
 public final class Decompile {
     private static final String VINEFLOWER_CONFIGURATION_NAME = "vineflower";
     private static final String VINEFLOWER_VERSION = "1.9.3";
+    private static final String ASM_VERSION = "9.7";
 
     /**
      * @param project   The current project.
@@ -43,6 +46,15 @@ public final class Decompile {
             }
             return project.getDependencies().create(metadata.getCliTool().toDependencyString());
         }));
+
+        // Ensure we're using the latest version of ASM.
+        for (var asmModule : List.of("asm", "asm-tree", "asm-commons", "asm-util")) {
+            config.getDependencies().add(project.getDependencies().create(Map.of(
+                "group", "org.ow2.asm",
+                "name", asmModule,
+                "version", ASM_VERSION
+            )));
+        }
 
         // Finally create our decompile task. This largely involves binding all our options from the extension to the
         // task.
