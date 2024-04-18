@@ -35,6 +35,8 @@ public abstract class DecompileAction implements WorkAction<DecompileAction.Para
         Property<Integer> getThreadCount();
 
         RegularFileProperty getMappings();
+
+        Property<Boolean> getLog();
     }
 
     @Override
@@ -52,7 +54,8 @@ public abstract class DecompileAction implements WorkAction<DecompileAction.Para
                 parameters.getOutputClasses().get().getAsFile().toPath(),
                 parameters.getClasspath().getFiles().stream().map(File::toPath).toList(),
                 parameters.getThreadCount().get(),
-                new MappingsJavadocProvider(mappingTree)
+                new MappingsJavadocProvider(mappingTree),
+                parameters.getLog().get()
             ));
         } catch (IOException e) {
             throw new UncheckedIOException(e);

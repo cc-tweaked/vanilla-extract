@@ -25,11 +25,14 @@ import org.gradle.workers.WorkerExecutor;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -145,6 +148,12 @@ public abstract class DecompileTask extends DefaultTask {
     @Classpath
     public abstract ConfigurableFileCollection getDecompilerClasspath();
 
+    /**
+     * Whether to log decompiler messages.
+     */
+    @Internal
+    public abstract Property<Boolean> getLogEnabled();
+
     // endregion
 
     // region Services
@@ -178,6 +187,7 @@ public abstract class DecompileTask extends DefaultTask {
             long systemMemory = ((OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getTotalMemorySize();
             return Math.max(systemMemory / (1024L * 1024L) / 4, 4096) + "M";
         }));
+        getLogEnabled().convention(false);
     }
 
     @TaskAction
@@ -208,13 +218,24 @@ public abstract class DecompileTask extends DefaultTask {
         List<Path> toDelete = new ArrayList<>();
         try {
             // If we have unpick definitions available, remap them and save them to a temporary file.
-            Path unpickDefinitions;
+            Path unpickDefinitions, unpickLogConfig;
             var unpick = getUnpickMappings().getOrNull();
             if (unpick != null) {
                 unpickDefinitions = getUnpickDefinitions(unpick.getAsFile().toPath(), everything.mappings());
                 toDelete.add(unpickDefinitions);
+
+                unpickLogConfig = Files.createTempFile("logging", "properties");
+                toDelete.add(unpickLogConfig);
+
+                try (var is = getClass().getClassLoader().getResourceAsStream("unpick-logging.properties");
+                     var os = Files.newOutputStream(unpickLogConfig, StandardOpenOption.WRITE)) {
+                    Objects.requireNonNull(is, "Cannot find unpick logging config").transferTo(os);
+                } catch (IOException e) {
+                    throw new UncheckedIOException("Failed to copy unpick logging config", e);
+                }
             } else {
                 unpickDefinitions = null;
+                unpickLogConfig = null;
             }
 
             // We then spin up a new process for running our decompiler.
@@ -231,7 +252,7 @@ public abstract class DecompileTask extends DefaultTask {
                 // the decompiler instead.
                 Path unpickJar;
                 if (unpickDefinitions != null) {
-                    unpickJar = getUnpickJar(inputJar, jar.getClasspath(), unpickDefinitions);
+                    unpickJar = getUnpickJar(inputJar, jar.getClasspath(), unpickDefinitions, unpickLogConfig);
                     toDelete.add(unpickJar);
                 } else {
                     unpickJar = inputJar;
@@ -251,6 +272,7 @@ public abstract class DecompileTask extends DefaultTask {
                         p.getClasspath().from(jar.getClasspath());
                         p.getThreadCount().set(getThreadCount());
                         p.getMappings().set(everything.mappings().toFile());
+                        p.getLog().set(getLogEnabled());
                     });
 
                     queue.await();
@@ -296,7 +318,7 @@ public abstract class DecompileTask extends DefaultTask {
      * @param definitions The unpick definitions.
      * @return The jar the unpicked classes were written to.
      */
-    private Path getUnpickJar(Path input, FileCollection classpath, Path definitions) {
+    private Path getUnpickJar(Path input, FileCollection classpath, Path definitions, Path logConfig) {
         var output = MoreFiles.addSuffix(input, "-unpick");
 
         long start = System.nanoTime();
@@ -305,6 +327,8 @@ public abstract class DecompileTask extends DefaultTask {
         getExecOperations().javaexec(x -> {
             x.getMainClass().set("daomephsta.unpick.cli.Main");
             x.setClasspath(getUnpickClasspath());
+
+            x.systemProperty("java.util.logging.config.file", logConfig.toFile().getAbsolutePath());
 
             List<File> args = new ArrayList<>();
             args.add(input.toFile());

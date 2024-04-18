@@ -5,7 +5,7 @@ import org.gradle.api.capabilities.Capability;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * A {@link Capability} who derives its group and name from a dependency's.
+ * A {@link Capability} who derives its group and name from a dependency.
  */
 final class DependencyCapability implements Capability {
     private final ModuleDependency dependency;

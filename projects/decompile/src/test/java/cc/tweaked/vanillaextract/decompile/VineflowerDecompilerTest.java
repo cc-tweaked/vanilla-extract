@@ -56,7 +56,8 @@ public class VineflowerDecompilerTest {
             path.resolve("output-classes.jar"),
             List.of(),
             1,
-            JavadocProvider.none()
+            JavadocProvider.none(),
+            false
         ));
 
         String contents;
@@ -93,7 +94,8 @@ public class VineflowerDecompilerTest {
             path.resolve("output-classes.jar"),
             List.of(),
             1,
-            JavadocProvider.none()
+            JavadocProvider.none(),
+            false
         ));
 
         var originalNode = new ClassNode();

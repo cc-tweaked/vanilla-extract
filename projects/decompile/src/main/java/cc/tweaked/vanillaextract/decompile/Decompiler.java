@@ -21,6 +21,7 @@ public interface Decompiler {
      * @param classpath     The classpath for this decompile job.
      * @param threads       The maximum number of threads to use for the decompiler.
      * @param javadoc       A {@link JavadocProvider} to provide additional javadoc to the compiler.
+     * @param log           Whether to enable logging. If false, only fatal errors will be logged.
      */
     record Parameters(
         Path originalInput,
@@ -29,7 +30,8 @@ public interface Decompiler {
         Path outputClasses,
         List<Path> classpath,
         int threads,
-        JavadocProvider javadoc
+        JavadocProvider javadoc,
+        boolean log
     ) {
     }
 

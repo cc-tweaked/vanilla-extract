@@ -34,10 +34,11 @@ public class VineflowerDecompiler implements Decompiler {
     @Override
     public void decompile(Parameters args) throws IOException {
         var saver = new VineflowerOutput(args.originalInput(), args.outputSources(), args.outputClasses());
+        var severity = args.log() ? getSeverity() : IFernflowerLogger.Severity.ERROR;
         var decompiler = new Fernflower(saver, Map.of(
             IFernflowerPreferences.BYTECODE_SOURCE_MAPPING, "1",
             IFernflowerPreferences.INDENT_STRING, "    ",
-            IFernflowerPreferences.LOG_LEVEL, IFernflowerLogger.Severity.TRACE.name(),
+            IFernflowerPreferences.LOG_LEVEL, severity.name(),
             IFernflowerPreferences.THREADS, Integer.toString(args.threads()),
             IFabricJavadocProvider.PROPERTY_NAME, new JavadocAdaptor(args.javadoc())
         ), new LogAdaptor());
@@ -55,9 +56,17 @@ public class VineflowerDecompiler implements Decompiler {
         }
     }
 
+    public static IFernflowerLogger.Severity getSeverity() {
+        if (LOG.isTraceEnabled()) return IFernflowerLogger.Severity.TRACE;
+        if (LOG.isInfoEnabled()) return IFernflowerLogger.Severity.INFO;
+        if (LOG.isWarnEnabled()) return IFernflowerLogger.Severity.WARN;
+        return IFernflowerLogger.Severity.ERROR;
+    }
+
     private static final class LogAdaptor extends IFernflowerLogger {
         @Override
         public void writeMessage(String message, Severity severity) {
+            if (!accepts(severity)) return;
             switch (severity) {
                 case TRACE -> LOG.trace(message);
                 case INFO -> LOG.info(message);
@@ -68,6 +77,7 @@ public class VineflowerDecompiler implements Decompiler {
 
         @Override
         public void writeMessage(String message, Severity severity, Throwable t) {
+            if (!accepts(severity)) return;
             switch (severity) {
                 case TRACE -> LOG.trace(message, t);
                 case INFO -> LOG.info(message, t);
