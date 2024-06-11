@@ -2,7 +2,7 @@ package cc.tweaked.vanillaextract;
 
 import cc.tweaked.vanillaextract.api.MappingsConfiguration;
 import cc.tweaked.vanillaextract.api.VanillaMinecraftExtension;
-import cc.tweaked.vanillaextract.configurations.MinecraftJar;
+import cc.tweaked.vanillaextract.configurations.MinecraftConfiguration;
 import cc.tweaked.vanillaextract.core.mappings.MappingProvider;
 import cc.tweaked.vanillaextract.core.mappings.MojangMappings;
 import cc.tweaked.vanillaextract.core.mappings.ParchmentMappings;
@@ -136,7 +136,7 @@ public abstract class MinecraftExtensionImpl implements VanillaMinecraftExtensio
         // Now add a dependency on the :constants jar. This includes some classes defining additional constants. We
         // need on the classpath for Unpick to work, so let's add them in.
         var constantsDependency = Dependencies.withClassifier(dependency, "constants");
-        project.getDependencies().addProvider(MinecraftJar.COMMON.getCompileConfigurationName(), constantsDependency);
-        project.getDependencies().addProvider(MinecraftJar.CLIENT_ONLY.getCompileConfigurationName(), constantsDependency);
+        project.getDependencies().addProvider(MinecraftConfiguration.COMMON.getCompileConfigurationName(), constantsDependency);
+        project.getDependencies().addProvider(MinecraftConfiguration.CLIENT_ONLY.getCompileConfigurationName(), constantsDependency);
     }
 }

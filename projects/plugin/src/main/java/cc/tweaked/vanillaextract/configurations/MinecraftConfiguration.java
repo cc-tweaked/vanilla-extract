@@ -1,6 +1,5 @@
 package cc.tweaked.vanillaextract.configurations;
 
-import cc.tweaked.vanillaextract.core.minecraft.TransformedMinecraftProvider;
 import org.gradle.api.artifacts.Configuration;
 
 /**
@@ -8,23 +7,16 @@ import org.gradle.api.artifacts.Configuration;
  *
  * @see MinecraftSetup
  */
-public enum MinecraftJar {
+public enum MinecraftConfiguration {
     COMMON("minecraftCommon"),
     CLIENT_ONLY("minecraftClientOnly");
 
     private final String compile;
     private final String runtime;
 
-    MinecraftJar(String name) {
+    MinecraftConfiguration(String name) {
         this.compile = name + "Compile";
         this.runtime = name + "Runtime";
-    }
-
-    public TransformedMinecraftProvider.TransformedJar getJar(TransformedMinecraftProvider.TransformedJars jars) {
-        return switch (this) {
-            case COMMON -> jars.common();
-            case CLIENT_ONLY -> jars.clientOnly();
-        };
     }
 
     public String getCompileConfigurationName() {

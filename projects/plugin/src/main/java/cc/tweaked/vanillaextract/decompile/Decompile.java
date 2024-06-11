@@ -1,14 +1,14 @@
 package cc.tweaked.vanillaextract.decompile;
 
 import cc.tweaked.vanillaextract.MinecraftExtensionImpl;
-import cc.tweaked.vanillaextract.configurations.MinecraftJar;
-import cc.tweaked.vanillaextract.core.minecraft.TransformedMinecraftProvider;
+import cc.tweaked.vanillaextract.configurations.MinecraftConfiguration;
 import cc.tweaked.vanillaextract.core.unpick.UnpickMetadata;
 import cc.tweaked.vanillaextract.utils.Dependencies;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.provider.Provider;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +24,9 @@ public final class Decompile {
     /**
      * @param project   The current project.
      * @param extension The Minecraft extension, used to (re-)provision Minecraft and get Loom version.
-     * @param jars      Our provisioned Minecraft jars.
+     * @param jars      The classes to decompile.
      */
-    public static void setup(Project project, MinecraftExtensionImpl extension, Provider<TransformedMinecraftProvider.TransformedJars> jars) {
+    public static void setup(Project project, MinecraftExtensionImpl extension, List<Target> jars) {
         // Create a new configuration and add Vineflower to it. This allows users to override Vineflower if needed.
         var decompiler = project.getConfigurations().create(VINEFLOWER_CONFIGURATION_NAME, c -> {
             c.setDescription("The Vineflower decompiler");
@@ -77,20 +77,26 @@ public final class Decompile {
             task.getDecompilerClasspath().setFrom(decompiler);
             task.getDecompilerClasspath().disallowChanges();
 
-            // Set each Minecraft jar as a target for the task.
-            var projectLayout = project.getLayout();
-            for (var configuration : MinecraftJar.values()) {
-                // Map the jar to a RegularFile, and get the configuration it belongs to. Then add them to the
-                // decompiler task.
-                var file = projectLayout.file(jars.map(x -> configuration.getJar(x).path().toFile()));
-                var classpath = project.getConfigurations().getByName(configuration.getCompileConfigurationName());
+            for (var jar : jars) {
+                var file = jar.file();
+                var classpath = task.getProject().getConfigurations().getByName(jar.configuration().getCompileConfigurationName());
 
                 task.addTarget(t -> {
-                    t.getInputFile().set(file);
-                    t.getClasspath().from(classpath.minus(projectLayout.files(file)));
+                    t.getInputFile().fileProvider(file);
+                    t.getClasspath().from(classpath.minus(task.getProject().getLayout().files(file)));
                 });
             }
             task.getTargets().disallowChanges();
         });
+    }
+
+    /**
+     * A target jar that we should decompile.
+     *
+     * @param configuration The Minecraft configuration this jar exists in.
+     * @param file          The file to decompile.
+     * @see DecompileTask.Target
+     */
+    public record Target(MinecraftConfiguration configuration, Provider<File> file) {
     }
 }

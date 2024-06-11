@@ -1,6 +1,5 @@
 package cc.tweaked.vanillaextract.configurations;
 
-import cc.tweaked.vanillaextract.core.minecraft.TransformedMinecraftProvider;
 import org.gradle.api.Action;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
@@ -37,7 +36,7 @@ import static cc.tweaked.vanillaextract.GradleUtils.lazyNamed;
  * <p>
  * We also provide several convenience functions which may be used for custom build logic:
  * <ul>
- *     <li>{@link #addMinecraftDependency(SourceSet, MinecraftJar)}: adds the Minecraft jar to other source sets.</li>
+ *     <li>{@link #addMinecraftDependency(SourceSet, MinecraftConfiguration)}: adds the Minecraft jar to other source sets.</li>
  *     <li>
  *         {@link #extendClasspath(SourceSet, SourceSet)}: Perform some magic tricks to inherit dependencies between
  *         source sets.
@@ -59,12 +58,12 @@ public class MinecraftSetup {
         this.sourceSets = project.getExtensions().getByType(JavaPluginExtension.class).getSourceSets();
     }
 
-    public void setup(Provider<TransformedMinecraftProvider.TransformedJars> jars) {
+    public void setup() {
         createClientSources();
         setupOutgoingConfigurations();
 
         // Create a new runtime and compile-time configuration for the common/server and client jars.
-        for (var config : MinecraftJar.values()) {
+        for (var config : MinecraftConfiguration.values()) {
             configurations.create(config.getCompileConfigurationName(), c -> {
                 c.setVisible(false);
                 c.setCanBeResolved(true); // Bit nasty, but needed for decompilation.
@@ -76,11 +75,6 @@ public class MinecraftSetup {
                 c.setCanBeResolved(false);
                 c.setCanBeConsumed(false);
             });
-
-            // And add our Minecraft jar as a dependency for these configurations.
-            var dependency = jars.map(x -> config.getJar(x).release().coordinate());
-            project.getDependencies().addProvider(config.getCompileConfigurationName(), dependency);
-            project.getDependencies().addProvider(config.getRuntimeConfigurationName(), dependency);
         }
 
         // TODO: It would be nice to handle Minecraft's native dependencies in a dynamic way using Gradle's variants.
@@ -89,9 +83,22 @@ public class MinecraftSetup {
         //  which we might be able to expand.
 
         // Then add these dependencies to the main, client and test source set.
-        addMinecraftDependency(sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME), MinecraftJar.COMMON);
-        addMinecraftDependency(sourceSets.getByName(CLIENT_SOURCE_SET_NAME), MinecraftJar.CLIENT_ONLY);
-        addMinecraftDependency(sourceSets.getByName(SourceSet.TEST_SOURCE_SET_NAME), MinecraftJar.CLIENT_ONLY);
+        addMinecraftDependency(sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME), MinecraftConfiguration.COMMON);
+        addMinecraftDependency(sourceSets.getByName(CLIENT_SOURCE_SET_NAME), MinecraftConfiguration.CLIENT_ONLY);
+        addMinecraftDependency(sourceSets.getByName(SourceSet.TEST_SOURCE_SET_NAME), MinecraftConfiguration.CLIENT_ONLY);
+    }
+
+    /**
+     * Add a dependency to one of our configurations.
+     *
+     * @param config      The configuration to add this dependency to.
+     * @param dependency  The dependency to add. This should be a provider with any dependency notation.
+     * @param compileTime Whether to add this as a compile-time dependency.
+     * @param runtime     Whether to add this as a runtime dependency.
+     */
+    public void addDependency(MinecraftConfiguration config, Provider<?> dependency, boolean compileTime, boolean runtime) {
+        if (compileTime) project.getDependencies().addProvider(config.getCompileConfigurationName(), dependency);
+        if (runtime) project.getDependencies().addProvider(config.getRuntimeConfigurationName(), dependency);
     }
 
     /**
@@ -282,7 +289,7 @@ public class MinecraftSetup {
      * @param sourceSet     The source set to add Minecraft to.
      * @param configuration The Minecraft configuration to depend on.
      */
-    public void addMinecraftDependency(SourceSet sourceSet, MinecraftJar configuration) {
+    public void addMinecraftDependency(SourceSet sourceSet, MinecraftConfiguration configuration) {
         extendsFrom(sourceSet.getCompileClasspathConfigurationName(), configuration.getCompileConfigurationName());
         extendsFrom(sourceSet.getRuntimeClasspathConfigurationName(), configuration.getRuntimeConfigurationName());
     }

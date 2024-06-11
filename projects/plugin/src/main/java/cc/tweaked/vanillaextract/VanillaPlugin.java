@@ -1,6 +1,7 @@
 package cc.tweaked.vanillaextract;
 
 import cc.tweaked.vanillaextract.api.VanillaMinecraftExtension;
+import cc.tweaked.vanillaextract.configurations.MinecraftConfiguration;
 import cc.tweaked.vanillaextract.configurations.MinecraftSetup;
 import cc.tweaked.vanillaextract.core.mappings.MappingProvider;
 import cc.tweaked.vanillaextract.core.minecraft.TransformedMinecraftProvider;
@@ -10,6 +11,7 @@ import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.file.FileSystemLocation;
 
+import java.util.List;
 import java.util.Set;
 
 public abstract class VanillaPlugin extends CommonPlugin {
@@ -45,8 +47,17 @@ public abstract class VanillaPlugin extends CommonPlugin {
             VanillaPlugin::configureMinecraft
         ));
 
-        new MinecraftSetup(project).setup(minecraft);
-        Decompile.setup(project, extension, minecraft);
+        // Set up the Minecraft configurations, and add our generated jars to their appropriate config.
+        var setup = new MinecraftSetup(project);
+        setup.setup();
+        setup.addDependency(MinecraftConfiguration.COMMON, minecraft.map(x -> x.common().release().coordinate()), true, true);
+        setup.addDependency(MinecraftConfiguration.CLIENT_ONLY, minecraft.map(x -> x.clientOnly().release().coordinate()), true, true);
+
+        // Set up the decompile task, with our two jars.
+        Decompile.setup(project, extension, List.of(
+            new Decompile.Target(MinecraftConfiguration.COMMON, minecraft.map(x -> x.common().path().toFile())),
+            new Decompile.Target(MinecraftConfiguration.CLIENT_ONLY, minecraft.map(x -> x.clientOnly().path().toFile()))
+        ));
     }
 
     private static TransformedMinecraftProvider.TransformedJars configureMinecraft(GlobalMinecraftProvider service, String version, MappingProvider mappings, Set<FileSystemLocation> accessWideners) {
