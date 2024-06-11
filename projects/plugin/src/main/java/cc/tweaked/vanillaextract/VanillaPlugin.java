@@ -18,7 +18,7 @@ public abstract class VanillaPlugin extends CommonPlugin {
         var service = setup(project);
 
         // Register our extension, which declares the user-configurable properties for Minecraft version, mappings and
-        // access widener
+        // access wideners.
         var extension = (MinecraftExtensionImpl) project.getExtensions().create(VanillaMinecraftExtension.class, "minecraft", MinecraftExtensionImpl.class);
 
         /*

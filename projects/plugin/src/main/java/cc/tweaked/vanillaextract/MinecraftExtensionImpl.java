@@ -13,11 +13,10 @@ import org.gradle.api.Project;
 import org.gradle.api.artifacts.ModuleDependency;
 import org.gradle.api.artifacts.ResolutionStrategy;
 import org.gradle.api.file.ConfigurableFileCollection;
-import org.gradle.api.file.ProjectLayout;
+import org.gradle.api.file.FileSystemLocation;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.provider.Provider;
-import org.gradle.api.provider.ProviderFactory;
 
 import javax.inject.Inject;
 
@@ -49,12 +48,6 @@ public abstract class MinecraftExtensionImpl implements VanillaMinecraftExtensio
 
     @Inject
     protected abstract Project getProject();
-
-    @Inject
-    protected abstract ProjectLayout getProjectLayout();
-
-    @Inject
-    protected abstract ProviderFactory getProviders();
 
     public MinecraftExtensionImpl() {
         getVersion().finalizeValueOnRead();
@@ -101,7 +94,7 @@ public abstract class MinecraftExtensionImpl implements VanillaMinecraftExtensio
                 // already - but it feels a sensible precaution.
                 configuration.resolutionStrategy(ResolutionStrategy::failOnNonReproducibleResolution);
 
-                getMappings().set(getProject().provider(() -> new ParchmentMappings(configuration.getSingleFile().toPath())));
+                getMappings().set(Dependencies.getSingleFile(configuration).map(x -> new ParchmentMappings(x.getAsFile().toPath())));
                 getMappings().disallowChanges();
             }
         });
@@ -130,27 +123,19 @@ public abstract class MinecraftExtensionImpl implements VanillaMinecraftExtensio
         // Create a dependency on the :mergedv2 jar, put it in its own detached configuration, and then bind
         // getUnpickMappings() to the result. This is then consumed in the decompile task.
         // Arguably we should be using DependencyHandler.variantOf here, but that only works with external modules.
-        Provider<ModuleDependency> mergedDependency = dependency.map(x -> {
-            var dep = x.copy();
-            dep.artifact(a -> a.setClassifier("mergedv2"));
-            return dep;
-        });
+        var mergedDependency = Dependencies.withClassifier(dependency, "mergedv2");
 
         var configuration = Dependencies.createDetachedConfiguration(project.getConfigurations(), "Unpick mappings (merged)", mergedDependency);
         // We don't strictly-speaking need failOnNonReproducibleResolution - unpick is only used for decompilation, so
         // doesn't need to be reproducible, but nice to have.
         configuration.resolutionStrategy(ResolutionStrategy::failOnNonReproducibleResolution);
 
-        getUnpickMappings().set(getProjectLayout().file(project.provider(configuration::getSingleFile)));
+        getUnpickMappings().fileProvider(Dependencies.getSingleFile(configuration).map(FileSystemLocation::getAsFile));
         getUnpickMappings().disallowChanges();
 
         // Now add a dependency on the :constants jar. This includes some classes defining additional constants. We
         // need on the classpath for Unpick to work, so let's add them in.
-        Provider<ModuleDependency> constantsDependency = dependency.map(x -> {
-            var dep = x.copy();
-            dep.artifact(a -> a.setClassifier("constants"));
-            return dep;
-        });
+        var constantsDependency = Dependencies.withClassifier(dependency, "constants");
         project.getDependencies().addProvider(MinecraftJar.COMMON.getCompileConfigurationName(), constantsDependency);
         project.getDependencies().addProvider(MinecraftJar.CLIENT_ONLY.getCompileConfigurationName(), constantsDependency);
     }
