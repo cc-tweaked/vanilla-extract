@@ -16,7 +16,6 @@ dependencies {
     shadow(libs.bundles.unshadowedDeps)
 
     testCompileOnly(libs.jetbrainsAnnotations)
-    testImplementation(libs.guava)
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.bundles.testRuntime)
 }

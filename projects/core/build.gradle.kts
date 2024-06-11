@@ -14,7 +14,6 @@ dependencies {
     implementation(libs.slf4j)
 
     testCompileOnly(libs.jetbrainsAnnotations)
-    testImplementation(libs.guava)
     testImplementation(libs.bundles.test)
     testRuntimeOnly(libs.bundles.testRuntime)
     testRuntimeOnly(libs.slf4j.simple)

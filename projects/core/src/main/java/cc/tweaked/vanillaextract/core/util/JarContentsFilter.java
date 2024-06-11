@@ -123,9 +123,7 @@ public class JarContentsFilter {
                     var sourceFile = source.getPath(file);
                     var outputFile = output.getPath(file);
 
-                    var parent = outputFile.getParent();
-                    if (parent != null) Files.createDirectories(parent);
-
+                    MoreFiles.createParentDirectories(outputFile);
                     Files.copy(sourceFile, outputFile, StandardCopyOption.COPY_ATTRIBUTES);
                 }
             }

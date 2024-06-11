@@ -7,7 +7,6 @@ fabric-unpick = "2.3.1"
 asm = "9.6"
 checkerFramework = "3.42.0"
 gson = "2.10.1"
-guava = "33.0.0-jre"
 jetbrainsAnnotations = "24.1.0"
 slf4j = "1.7.0"
 vineflower = "1.9.3"
@@ -30,7 +29,6 @@ asm-util = { module = "org.ow2.asm:asm-util", version.ref = "asm" }
 
 checkerFramework = { module = "org.checkerframework:checker-qual", version.ref = "checkerFramework" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-guava = { module = "com.google.guava:guava", version.ref = "guava" }
 jetbrainsAnnotations = { module = "org.jetbrains:annotations", version.ref = "jetbrainsAnnotations" }
 slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }

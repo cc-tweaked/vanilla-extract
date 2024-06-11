@@ -8,12 +8,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.zip.ZipOutputStream;
 
@@ -251,5 +251,91 @@ public final class MoreFiles {
         public void close() {
             tryDelete(path);
         }
+    }
+
+
+    /**
+     * Copy files from {@code from} to {@code to}. Much like {@link Files#copy(Path, OutputStream)}, but recurses into
+     * directories.
+     *
+     * @param from    The source files.
+     * @param to      The destination files.
+     * @param options Additional copy options.
+     * @throws IOException If copying failed.
+     */
+    public static void copyRecursively(Path from, Path to, CopyOption... options) throws IOException {
+        Files.walkFileTree(from, new Copier(from, to, options));
+    }
+
+    /**
+     * Copy files from one directory to another.
+     */
+    private static final class Copier extends SimpleFileVisitor<Path> {
+        private final Path sourceDir;
+        private final Path targetDir;
+        private final CopyOption[] copyOptions;
+
+        private Copier(Path sourceDir, Path targetDir, CopyOption[] copyOptions) {
+            this.sourceDir = sourceDir;
+            this.targetDir = targetDir;
+            this.copyOptions = copyOptions;
+        }
+
+        @Override
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
+            var relative = sourceDir.relativize(file);
+            var target = targetDir.getFileSystem() == relative.getFileSystem() ? targetDir.resolve(relative) : targetDir.resolve(relative.toString());
+            Files.copy(file, target, copyOptions);
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attributes) throws IOException {
+            var newDir = targetDir.resolve(sourceDir.relativize(dir));
+            Files.createDirectories(newDir);
+            return FileVisitResult.CONTINUE;
+        }
+    }
+
+    /**
+     * Delete the provided file, and all files under it.
+     *
+     * @param path The file to delete.
+     * @throws IOException If deletion failed.
+     */
+    public static void deleteRecursively(Path path) throws IOException {
+        Files.walkFileTree(path, Deleter.instance);
+    }
+
+    /**
+     * Delete all visited directories.
+     */
+    private static final class Deleter extends SimpleFileVisitor<Path> {
+        private static final Deleter instance = new Deleter();
+
+        @Override
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
+            Files.delete(file);
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+            Files.delete(dir);
+            return FileVisitResult.CONTINUE;
+        }
+    }
+
+
+    /**
+     * Create the parent directories to a file, if needed.
+     *
+     * @param path The path to create the parent directories of.
+     * @throws IOException If we cannot create the directory.
+     * @see Files#createDirectories(Path, FileAttribute[])
+     */
+    public static void createParentDirectories(Path path) throws IOException {
+        var parent = path.getParent();
+        if (parent != null) Files.createDirectories(parent);
     }
 }

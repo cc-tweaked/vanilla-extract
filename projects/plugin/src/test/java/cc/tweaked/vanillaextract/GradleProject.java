@@ -1,8 +1,7 @@
 package cc.tweaked.vanillaextract;
 
 import cc.tweaked.vanillaextract.core.minecraft.TransformedMinecraftProvider;
-import com.google.common.io.MoreFiles;
-import com.google.common.io.RecursiveDeleteOption;
+import cc.tweaked.vanillaextract.core.util.MoreFiles;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.jetbrains.annotations.Nullable;
@@ -33,13 +32,13 @@ public class GradleProject implements BeforeEachCallback, AfterEachCallback {
     public void beforeEach(ExtensionContext context) throws IOException {
         // Try to delete the cache directory if it exists
         var projectDir = this.projectDir = Files.createTempDirectory("VanillaExtract-" + originalDir.getFileName().toString());
-        Copier.copy(originalDir, projectDir);
+        MoreFiles.copyRecursively(originalDir, projectDir);
     }
 
     @Override
     public void afterEach(ExtensionContext context) throws IOException {
         if (projectDir != null) {
-            MoreFiles.deleteRecursively(projectDir, RecursiveDeleteOption.ALLOW_INSECURE);
+            MoreFiles.deleteRecursively(projectDir);
             projectDir = null;
         }
     }
