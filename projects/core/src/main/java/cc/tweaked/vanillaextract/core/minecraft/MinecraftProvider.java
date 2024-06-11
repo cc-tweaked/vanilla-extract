@@ -35,36 +35,36 @@ public final class MinecraftProvider {
      * A single Minecraft jar, and information required to consume that jar.
      *
      * @param jar          The path to the jar file.
+     * @param mappings     The mappings for this jar.
      * @param dependencies A list of dependencies for this artifact.
      */
-    public record MinecraftJar(FileFingerprint jar, List<String> dependencies) {
+    public record MinecraftJar(FileFingerprint jar, FileFingerprint mappings, List<String> dependencies) {
+    }
+
+    /**
+     * The raw artifacts.
+     *
+     * @param server The server jar.
+     * @param client The client jar.
+     */
+    public record RawArtifacts(MinecraftJar server, MinecraftJar client) {
     }
 
     /**
      * All Minecraft artifacts.
      *
-     * @param common   The common/server jar.
-     * @param client   The client-only jar.
-     * @param mappings The list of mappings used to deobfuscate the jars.
+     * @param common The common/server jar.
+     * @param client The client-only jar.
      */
-    public record Artifacts(
-        MinecraftJar common,
-        MinecraftJar client,
-        List<FileFingerprint> mappings
-    ) {
-    }
-
-    /**
-     * Download the vanilla Minecraft jars and extract their dependencies.
-     *
-     * @param target      The directory to download and unpack the jars into.
-     * @param versionInfo All information about the version.
-     * @param refresh     Re-process
-     * @return The resulting {@linkplain Artifacts minecraft artifacts}.
-     * @throws IOException If the jars could not be downloaded.
-     */
-    public Artifacts provide(Path target, MinecraftVersion versionInfo, boolean refresh) throws IOException {
-        return provide(target, versionInfo.downloads(), versionInfo.libraries(), refresh);
+    public record SplitArtifacts(MinecraftJar common, MinecraftJar client) {
+        /**
+         * Get the list of mappings used to deobfuscate the jars.
+         *
+         * @return The list of mappings.
+         */
+        public List<FileFingerprint> mappings() {
+            return List.of(common().mappings(), client().mappings());
+        }
     }
 
     /**
@@ -73,15 +73,13 @@ public final class MinecraftProvider {
      * @param target          The directory to download and unpack the jars into.
      * @param downloads       The downloads for this version.
      * @param clientLibraries The client libraries for this version.
-     * @param refresh         Re-process
-     * @return The resulting {@linkplain Artifacts minecraft artifacts}.
+     * @return The resulting {@linkplain SplitArtifacts minecraft artifacts}.
      * @throws IOException If the jars could not be downloaded.
      */
-    public Artifacts provide(
+    public RawArtifacts provideRaw(
         Path target,
         MinecraftVersion.Downloads downloads,
-        List<MinecraftVersion.Library> clientLibraries,
-        boolean refresh
+        List<MinecraftVersion.Library> clientLibraries
     ) throws IOException {
         var clientJar = target.resolve("client.jar");
         var clientMappings = target.resolve("client.txt");
@@ -117,24 +115,44 @@ public final class MinecraftProvider {
             .filter(x -> x.rules() == null || x.rules().isEmpty())
             .map(MinecraftVersion.Library::name).toList();
 
-        var clientLibrarySet = new HashSet<>(serverLibraries);
-        var commonLibraries = serverLibraries.stream().filter(clientLibrarySet::contains).toList();
+        return new RawArtifacts(
+            new MinecraftJar(
+                new FileFingerprint(extractedServerJar, downloads.server().sha1()),
+                new FileFingerprint(serverMappings, downloads.server_mappings().sha1()),
+                serverLibraries
+            ),
+            new MinecraftJar(
+                new FileFingerprint(clientJar, downloads.client().sha1()),
+                new FileFingerprint(clientMappings, downloads.client_mappings().sha1()),
+                clientLibraryNames
+            )
+        );
+    }
 
+    /**
+     * Split the vanilla Minecraft jars into separate common and client jars.
+     *
+     * @param target       The directory to download and unpack the jars into.
+     * @param rawArtifacts The raw Minecraft artifacts, as returned by {@link #provideRaw(Path, MinecraftVersion.Downloads, List)}.
+     * @param refresh      Re-process the split files.
+     * @return The resulting {@linkplain SplitArtifacts minecraft artifacts}.
+     * @throws IOException If the jars could not be downloaded.
+     */
+    public SplitArtifacts provideSplit(Path target, RawArtifacts rawArtifacts, boolean refresh) throws IOException {
         // Split the client and server jars.
         var clientOnlyJar = target.resolve("client-only.jar");
         var commonJar = target.resolve("common.jar");
         // FIXME: This doesn't correctly handle the jars changing. I don't think that'll ever happen, but worth checking!
         if (refresh || !MoreFiles.exists(commonJar) || !MoreFiles.exists(clientOnlyJar)) {
-            JarContentsFilter.split(extractedServerJar, clientJar, commonJar, clientOnlyJar);
+            JarContentsFilter.split(rawArtifacts.server().jar().path(), rawArtifacts.client().jar().path(), commonJar, clientOnlyJar);
         }
 
-        return new Artifacts(
-            new MinecraftJar(FileFingerprint.createImmutable(commonJar), commonLibraries),
-            new MinecraftJar(FileFingerprint.createImmutable(clientOnlyJar), clientLibraryNames),
-            List.of(
-                new FileFingerprint(clientMappings, downloads.client_mappings().sha1()),
-                new FileFingerprint(serverMappings, downloads.server_mappings().sha1())
-            )
+        var clientLibrarySet = new HashSet<>(rawArtifacts.client().dependencies());
+        var commonDependencies = rawArtifacts.server().dependencies().stream().filter(clientLibrarySet::contains).toList();
+
+        return new SplitArtifacts(
+            new MinecraftJar(FileFingerprint.createImmutable(commonJar), rawArtifacts.server().mappings(), commonDependencies),
+            new MinecraftJar(FileFingerprint.createImmutable(clientOnlyJar), rawArtifacts.client().mappings(), rawArtifacts.client().dependencies())
         );
     }
 

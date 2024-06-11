@@ -18,7 +18,7 @@ public class MinecraftProviderTest {
     @TempDir
     private Path dir;
 
-    public static MinecraftProvider.Artifacts setupMinecraft(Path dir, FileDownloader downloader) throws IOException {
+    public static MinecraftProvider.SplitArtifacts setupMinecraft(Path dir, FileDownloader downloader) throws IOException {
         var downloads = new MinecraftVersion.Downloads(
             new MinecraftVersion.Download("fd19469fed4a4b4c15b2d5133985f0e3e7816a8a", 0, "https://piston-data.mojang.com/v1/objects/fd19469fed4a4b4c15b2d5133985f0e3e7816a8a/client.jar"),
             new MinecraftVersion.Download("be76ecc174ea25580bdc9bf335481a5192d9f3b7", 0, "https://piston-data.mojang.com/v1/objects/be76ecc174ea25580bdc9bf335481a5192d9f3b7/client.txt"),
@@ -29,7 +29,9 @@ public class MinecraftProviderTest {
             new MinecraftVersion.Library(null, "org.slf4j:slf4j-api:2.0.7", null)
         );
 
-        return new MinecraftProvider(downloader).provide(dir, downloads, libraries, false);
+        var provider = new MinecraftProvider(downloader);
+        var rawArtifacts = provider.provideRaw(dir, downloads, libraries);
+        return new MinecraftProvider(downloader).provideSplit(dir, rawArtifacts, false);
     }
 
     @Test

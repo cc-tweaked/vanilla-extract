@@ -69,7 +69,7 @@ public final class TransformedMinecraftProvider {
 
     public TransformedJars provide(
         String version,
-        MinecraftProvider.Artifacts artifacts,
+        MinecraftProvider.SplitArtifacts artifacts,
         FileFingerprint mappings,
         List<FileFingerprint> accessWideners,
         boolean refresh
@@ -215,7 +215,7 @@ public final class TransformedMinecraftProvider {
     }
 
     private static void writeMinecraftPoms(
-        String version, MinecraftProvider.Artifacts artifacts, Path mavenPath, MavenRelease common, MavenRelease clientOnly
+        String version, MinecraftProvider.SplitArtifacts artifacts, Path mavenPath, MavenRelease common, MavenRelease clientOnly
     ) throws IOException {
         writeMinecraftPom(
             mavenPath, common, "Minecraft " + version + " (common)",

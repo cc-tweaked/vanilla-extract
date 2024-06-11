@@ -52,7 +52,7 @@ public abstract class GlobalMinecraftProvider implements BuildService<GlobalMine
     private final Path localMavenPath;
     private final boolean refresh;
 
-    private final @GuardedBy("minecraftVersions") Map<String, cc.tweaked.vanillaextract.core.minecraft.manifest.MinecraftVersion> minecraftVersions = new HashMap<>();
+    private final @GuardedBy("minecraftVersions") Map<String, MinecraftVersion> minecraftVersions = new HashMap<>();
     private final @GuardedBy("minecraftVersions") MinecraftVersionProvider minecraftVersionProvider;
 
     private final MinecraftProvider minecraftProvider;
@@ -85,10 +85,6 @@ public abstract class GlobalMinecraftProvider implements BuildService<GlobalMine
         }
     }
 
-    private synchronized MinecraftProvider.Artifacts getMinecraft(String version) throws IOException {
-        return minecraftProvider.provide(globalPluginCache.resolve(version), getVersion(version), refresh);
-    }
-
     public Everything provide(String version, MappingProvider mappings, List<Path> accessWideners, boolean refresh) throws IOException {
         long start = System.nanoTime();
         Everything result = provideVanilla(version, mappings, accessWideners, refresh);
@@ -97,7 +93,14 @@ public abstract class GlobalMinecraftProvider implements BuildService<GlobalMine
     }
 
     private Everything provideVanilla(String version, MappingProvider mappings, List<Path> accessWideners, boolean refresh) throws IOException {
-        var minecraft = getMinecraft(version);
+        MinecraftProvider.SplitArtifacts minecraft;
+        synchronized (minecraftProvider) {
+            var folder = globalPluginCache.resolve(version);
+            var versionInfo = getVersion(version);
+            var raw = minecraftProvider.provideRaw(folder, versionInfo.downloads(), versionInfo.libraries());
+            minecraft = minecraftProvider.provideSplit(folder, raw, refresh);
+        }
+
         var resolvedMappings = mappings.resolve(new MappingProvider.Context(minecraft.mappings(), this::fingerprint));
         var mappingPath = mappingsFileProvider.saveMappings(version, resolvedMappings);
 
