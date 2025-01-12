@@ -35,8 +35,8 @@ repositories {
 tasks.withType(AbstractArchiveTask::class.java).configureEach {
     isPreserveFileTimestamps = false
     isReproducibleFileOrder = true
-    dirMode = Integer.valueOf("755", 8)
-    fileMode = Integer.valueOf("664", 8)
+    filePermissions {}
+    dirPermissions {}
 }
 
 tasks.test {

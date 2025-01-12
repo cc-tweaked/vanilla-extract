@@ -28,7 +28,7 @@ public class Capabilities {
      * @return The same dependency as provided.
      */
     public static ModuleDependency clientClasses(ModuleDependency dependency) {
-        return dependency.capabilities(c -> c.requireCapability(new DependencyCapability(dependency, CLIENT)));
+        return dependency.capabilities(c -> c.requireFeature(CLIENT));
     }
 
     /**
@@ -38,6 +38,6 @@ public class Capabilities {
      * @return The same dependency as provided.
      */
     public static ModuleDependency commonClasses(ModuleDependency dependency) {
-        return dependency.capabilities(c -> c.requireCapability(new DependencyCapability(dependency, COMMON)));
+        return dependency.capabilities(c -> c.requireFeature(COMMON));
     }
 }

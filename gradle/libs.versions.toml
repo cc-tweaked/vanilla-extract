@@ -1,19 +1,19 @@
 [versions]
 fabric-accessWidener = "2.1.0"
-fabric-mappingIo = "0.5.0"
-fabric-tinyRemapper = "0.10.0"
+fabric-mappingIo = "0.7.1"
+fabric-tinyRemapper = "0.10.4"
 fabric-unpick = "2.3.1"
 
-asm = "9.6"
+asm = "9.7.1"
 checkerFramework = "3.42.0"
 gson = "2.10.1"
 jetbrainsAnnotations = "24.1.0"
 slf4j = "1.7.0"
-vineflower = "1.9.3"
+vineflower = "1.10.1"
 
 junit = "5.10.1"
 
-shadow = "8.1.1"
+shadow = "8.3.5"
 
 [libraries]
 fabric-accessWidener = { module = "net.fabricmc:access-widener", version.ref = "fabric-accessWidener" }
@@ -48,4 +48,4 @@ unshadowedDeps = [
 ]
 
 [plugins]
-shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

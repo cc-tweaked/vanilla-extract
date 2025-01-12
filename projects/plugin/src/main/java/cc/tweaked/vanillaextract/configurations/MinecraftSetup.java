@@ -20,6 +20,7 @@ import org.gradle.api.tasks.javadoc.Javadoc;
 import org.gradle.jvm.tasks.Jar;
 
 import java.io.File;
+import java.util.Map;
 
 import static cc.tweaked.vanillaextract.GradleUtils.lazyNamed;
 
@@ -258,8 +259,13 @@ public class MinecraftSetup {
             });
 
             c.outgoing(o -> {
-                // Mark this as an outgoing variant with the appropriate capability.
-                o.capability(new ProjectCapability(project, capabilityName));
+                // Mark this as an outgoing variant with the appropriate capability. Ideally we'd use
+                // ProjectDerivedCapability here (or roll our own), but that's all internal, so we're out of luck :(.
+                o.capability(project.provider(() -> Map.of(
+                    "group", project.getGroup().toString(),
+                    "name", project.getName() + "-" + capabilityName,
+                    "version", project.getVersion().toString()
+                )));
 
                 // Expose the jar as an artifact.
                 o.artifact(project.getTasks().named(sourceSet.getJarTaskName()));

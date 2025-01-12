@@ -1,6 +1,7 @@
 package cc.tweaked.vanillaextract.decompile;
 
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.java.decompiler.main.decompiler.SingleFileSaver;
 import org.jetbrains.java.decompiler.main.extern.IResultSaver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +75,7 @@ final class VineflowerOutput implements IResultSaver {
     @Override
     public void copyEntry(String source, String path, String archiveName, String entry) {
         if (outputSources == null || outputClasses == null) throw new IllegalStateException("Archive not created yet");
+        if (entry.equals(SingleFileSaver.MANIFEST)) return;
 
         try (var stream = Files.newInputStream(inputJar.getPath(entry))) {
             outputSources.putNextEntry(new ZipEntry(entry));

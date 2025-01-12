@@ -2,6 +2,9 @@ plugins {
     id "cc.tweaked.vanilla-extract"
 }
 
+group = "com.example"
+version = "1.0"
+
 minecraft {
     version("1.20.4")
 
