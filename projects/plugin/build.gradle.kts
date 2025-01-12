@@ -73,7 +73,7 @@ components.named<AdhocComponentWithVariants>("java") {
 
 publishing {
     repositories {
-        maven("https://squiddev.cc/maven") {
+        maven("https://maven.squiddev.cc") {
             name = "SquidDev"
 
             credentials(PasswordCredentials::class)
