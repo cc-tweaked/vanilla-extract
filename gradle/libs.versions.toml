@@ -1,15 +1,17 @@
 [versions]
 fabric-accessWidener = "2.1.0"
 fabric-mappingIo = "0.7.1"
-fabric-tinyRemapper = "0.10.4"
+fabric-tinyRemapper = "0.11.0"
 fabric-unpick = "2.3.1"
 
-asm = "9.7.1"
 checkerFramework = "3.42.0"
 gson = "2.10.1"
 jetbrainsAnnotations = "24.1.0"
 slf4j = "1.7.0"
-vineflower = "1.10.1"
+
+# IMPORTANT: Bump in Decompile.java too
+asm = "9.7.1"
+vineflower = "1.11.0"
 
 junit = "5.10.1"
 

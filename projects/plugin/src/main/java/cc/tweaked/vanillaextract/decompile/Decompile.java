@@ -18,8 +18,8 @@ import java.util.Map;
  */
 public final class Decompile {
     private static final String VINEFLOWER_CONFIGURATION_NAME = "vineflower";
-    private static final String VINEFLOWER_VERSION = "1.9.3";
-    private static final String ASM_VERSION = "9.7";
+    private static final String VINEFLOWER_VERSION = "1.11.0";
+    private static final String ASM_VERSION = "9.7.1";
 
     /**
      * @param project   The current project.
