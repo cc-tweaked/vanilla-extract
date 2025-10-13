@@ -10,7 +10,7 @@ import com.sun.management.OperatingSystemMXBean;
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.ConfigurableFileCollection;
-import org.gradle.api.file.FileCollection;
+import org.gradle.api.file.RegularFile;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.ListProperty;
@@ -25,15 +25,12 @@ import org.gradle.workers.WorkerExecutor;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.lang.management.ManagementFactory;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
+import java.util.stream.StreamSupport;
 
 /**
  * Decompile Minecraft using Vineflower.
@@ -53,41 +50,16 @@ public abstract class DecompileTask extends DefaultTask {
     // region Input files
 
     /**
-     * A target jar to decompile.
-     */
-    public interface Target {
-        /**
-         * The input jar to decompile.
-         */
-        @InputFile
-        RegularFileProperty getInputFile();
-
-        /**
-         * The classpath for this jar.
-         */
-        @Classpath
-        ConfigurableFileCollection getClasspath();
-    }
-
-    /**
      * The list of targets to decompile.
      */
     @Input
-    public abstract ListProperty<Target> getTargets();
+    public abstract ListProperty<RegularFile> getTargets();
 
     /**
-     * Add a target to the decompile task.
-     *
-     * @param configure The function to configure the target.
+     * The classpath for this jar.
      */
-    public void addTarget(Action<? super Target> configure) {
-        var instance = getObjectFactory().newInstance(Target.class);
-        configure.execute(instance);
-        instance.getInputFile().disallowChanges();
-        instance.getClasspath().disallowChanges();
-        getTargets().add(instance);
-    }
-    // endregion
+    @Classpath
+    public abstract ConfigurableFileCollection getClasspath();
 
     // region Minecraft
 
@@ -119,10 +91,6 @@ public abstract class DecompileTask extends DefaultTask {
     @InputFile
     @Optional
     public abstract RegularFileProperty getUnpickMappings();
-
-    @Classpath
-    @Optional
-    public abstract ConfigurableFileCollection getUnpickClasspath();
 
     // endregion
 
@@ -193,7 +161,7 @@ public abstract class DecompileTask extends DefaultTask {
     @TaskAction
     public void run() throws IOException {
         var minecraft = getMinecraftService().get();
-        var inputJars = getTargets().get();
+        var inputJars = getTargets().get().stream().map(x -> x.getAsFile().toPath()).toList();
 
         // This is a bit of a hack, but we regenerate our transformed jars, to ensure we apply line maps to the
         // "original" jar, rather than an already line-mapped jar.
@@ -211,31 +179,33 @@ public abstract class DecompileTask extends DefaultTask {
             minecraftJars.common().path(),
             minecraftJars.clientOnly().path()
         );
-        if (inputJars.size() != expectedJars.size() || inputJars.stream().anyMatch(x -> !expectedJars.contains(x.getInputFile().get().getAsFile().toPath()))) {
+        if (inputJars.size() != expectedJars.size() || inputJars.stream().anyMatch(x -> !expectedJars.contains(x))) {
             getLogger().warn("Expected to be transforming {}, but actually transforming {}.", expectedJars, inputJars);
         }
 
         List<Path> toDelete = new ArrayList<>();
         try {
-            // If we have unpick definitions available, remap them and save them to a temporary file.
-            Path unpickDefinitions, unpickLogConfig;
+            // If we have unpick definitions available, unpick our jars and write them to temporary -unpick files.
+            List<Path> unpickJars;
             var unpick = getUnpickMappings().getOrNull();
-            if (unpick != null) {
-                unpickDefinitions = getUnpickDefinitions(unpick.getAsFile().toPath(), everything.mappings());
-                toDelete.add(unpickDefinitions);
-
-                unpickLogConfig = Files.createTempFile("logging", "properties");
-                toDelete.add(unpickLogConfig);
-
-                try (var is = getClass().getClassLoader().getResourceAsStream("unpick-logging.properties");
-                     var os = Files.newOutputStream(unpickLogConfig, StandardOpenOption.WRITE)) {
-                    Objects.requireNonNull(is, "Cannot find unpick logging config").transferTo(os);
-                } catch (IOException e) {
-                    throw new UncheckedIOException("Failed to copy unpick logging config", e);
-                }
+            if (unpick == null) {
+                unpickJars = inputJars;
             } else {
-                unpickDefinitions = null;
-                unpickLogConfig = null;
+                long start = System.nanoTime();
+                getLogger().info("Unpicking");
+
+                unpickJars = new ArrayList<>(inputJars.size());
+                var classpath = StreamSupport.stream(getClasspath().spliterator(), false).map(File::toPath).toList();
+                try (var unpicker = new UnpickProvider(everything.mappings(), unpick.getAsFile().toPath(), classpath)) {
+                    for (var inputJar : inputJars) {
+                        var unpickJar = MoreFiles.addSuffix(inputJar, "-unpick");
+                        unpicker.unpick(inputJar, unpickJar);
+                        toDelete.add(unpickJar);
+                        unpickJars.add(unpickJar);
+                    }
+                }
+
+                getLogger().info("Unpicking took {}.", Timing.formatSince(start));
             }
 
             // We then spin up a new process for running our decompiler.
@@ -245,19 +215,9 @@ public abstract class DecompileTask extends DefaultTask {
             });
 
             // And start processing our inputs.
-            for (var jar : inputJars) {
-                var inputJar = jar.getInputFile().get().getAsFile().toPath();
-
-                // If we have unpick definitions available, apply them to our current jar, and use that as an input to
-                // the decompiler instead.
-                Path unpickJar;
-                if (unpickDefinitions != null) {
-                    unpickJar = getUnpickJar(inputJar, jar.getClasspath(), unpickDefinitions, unpickLogConfig);
-                    toDelete.add(unpickJar);
-                } else {
-                    unpickJar = inputJar;
-                }
-
+            for (int i = 0; i < inputJars.size(); i++) {
+                var inputJar = inputJars.get(i);
+                var unpickJar = unpickJars.get(i);
                 var outputSources = MoreFiles.addSuffix(inputJar, "-sources");
                 try (var outputClasses = MoreFiles.scratch(inputJar)) {
                     long start = System.nanoTime();
@@ -269,7 +229,7 @@ public abstract class DecompileTask extends DefaultTask {
                         p.getUnpickedInput().set(unpickJar.toFile());
                         p.getOutputClasses().set(outputClasses.path().toFile());
                         p.getOutputSources().set(outputSources.toFile());
-                        p.getClasspath().from(jar.getClasspath());
+                        p.getClasspath().from(getClasspath());
                         p.getThreadCount().set(getThreadCount());
                         p.getMappings().set(everything.mappings().toFile());
                         p.getLog().set(getLogEnabled());
@@ -287,59 +247,5 @@ public abstract class DecompileTask extends DefaultTask {
 
             // TODO: Do we want to terminate the external worker, like Fabric does?
         }
-    }
-
-    /**
-     * Generate our unpick definitions.
-     *
-     * @param unpick   The jar containing unpick definitions and their mappings.
-     * @param mappings The workspace mappings.
-     * @return The path the remapped unpick definitions were written to.
-     * @throws IOException If we failed to generate the definitions.
-     */
-    private Path getUnpickDefinitions(Path unpick, Path mappings) throws IOException {
-        var output = Files.createTempFile("definitions", ".unpick");
-
-        long start = System.nanoTime();
-        getLogger().info("Remapping unpick definitions from {}.", unpick);
-
-        UnpickProvider.provideUnpick(mappings, unpick, output);
-
-        getLogger().info("Remapping unpick definitions took {}.", Timing.formatSince(start));
-
-        return output;
-    }
-
-    /**
-     * Generate an unpicked jar.
-     *
-     * @param input       The input jar.
-     * @param classpath   The classpath of the input jar.
-     * @param definitions The unpick definitions.
-     * @return The jar the unpicked classes were written to.
-     */
-    private Path getUnpickJar(Path input, FileCollection classpath, Path definitions, Path logConfig) {
-        var output = MoreFiles.addSuffix(input, "-unpick");
-
-        long start = System.nanoTime();
-        getLogger().info("Unpicking {} using {}.", input, definitions);
-
-        getExecOperations().javaexec(x -> {
-            x.getMainClass().set("daomephsta.unpick.cli.Main");
-            x.setClasspath(getUnpickClasspath());
-
-            x.systemProperty("java.util.logging.config.file", logConfig.toFile().getAbsolutePath());
-
-            List<File> args = new ArrayList<>();
-            args.add(input.toFile());
-            args.add(output.toFile());
-            args.add(definitions.toFile());
-            args.addAll(classpath.getFiles());
-            x.setArgs(args.stream().map(File::getAbsolutePath).toList());
-        });
-
-        getLogger().info("Unpicking took {}.", Timing.formatSince(start));
-
-        return output;
     }
 }

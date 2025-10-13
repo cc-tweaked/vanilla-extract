@@ -46,6 +46,7 @@ tasks.shadowJar {
         include(dependency(libs.fabric.accessWidener.get()))
         include(dependency(libs.fabric.mappingIo.get()))
         include(dependency(libs.fabric.tinyRemapper.get()))
+        include(dependency(libs.fabric.unpick.get()))
         include(dependency(libs.fabric.unpickFormatUtils.get()))
     }
 

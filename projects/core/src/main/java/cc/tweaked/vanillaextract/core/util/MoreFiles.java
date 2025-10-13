@@ -103,6 +103,18 @@ public final class MoreFiles {
     }
 
     /**
+     * Compute the SHA1 hash of the given path.
+     *
+     * @param path The path of the file to read.
+     * @return The hash.
+     */
+    public static String computeSha256(Path path) throws IOException {
+        var digest = MoreDigests.createSha256();
+        MoreDigests.digestFile(digest, path);
+        return MoreDigests.toHexString(digest);
+    }
+
+    /**
      * Attempt to read a custom file attribute.
      *
      * @param path      The path to the file.

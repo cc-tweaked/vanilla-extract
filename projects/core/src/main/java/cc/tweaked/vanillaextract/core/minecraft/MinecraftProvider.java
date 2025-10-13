@@ -2,14 +2,17 @@ package cc.tweaked.vanillaextract.core.minecraft;
 
 import cc.tweaked.vanillaextract.core.download.FileDownloader;
 import cc.tweaked.vanillaextract.core.inputs.FileFingerprint;
+import cc.tweaked.vanillaextract.core.inputs.HashingInputCollector;
 import cc.tweaked.vanillaextract.core.minecraft.manifest.MinecraftVersion;
 import cc.tweaked.vanillaextract.core.minecraft.manifest.ServerMetadata;
 import cc.tweaked.vanillaextract.core.util.JarContentsFilter;
 import cc.tweaked.vanillaextract.core.util.MoreFiles;
 import net.fabricmc.tinyremapper.FileSystemReference;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
@@ -81,19 +84,15 @@ public final class MinecraftProvider {
         MinecraftVersion.Downloads downloads,
         List<MinecraftVersion.Library> clientLibraries
     ) throws IOException {
-        var clientJar = target.resolve("client.jar");
-        var clientMappings = target.resolve("client.txt");
-        var fullServerJar = target.resolve("server.jar");
-        var serverMappings = target.resolve("server.txt");
-
+        Path clientJar, clientMappings, fullServerJar, serverMappings;
         try (var scope = downloader.openScope()) {
-            downloads.client().downloadTo(clientJar).download(scope);
-            downloads.client_mappings().downloadTo(clientMappings).download(scope);
-            downloads.server().downloadTo(fullServerJar).download(scope);
-            downloads.server_mappings().downloadTo(serverMappings).download(scope);
+            clientJar = downloads.client().downloadLike(target, "client", "jar").download(scope);
+            clientMappings = downloads.client_mappings().downloadLike(target, "client", "txt").download(scope);
+            fullServerJar = downloads.server().downloadLike(target, "server", "jar").download(scope);
+            serverMappings = downloads.server_mappings().downloadLike(target, "server", "txt").download(scope);
         }
 
-        var extractedServerJar = target.resolve("server-extracted.jar");
+        var extractedServerJar = target.resolve("server-extracted-" + downloads.server().sha1() + ".jar");
 
         // Extract server dependencies and main jar
         List<String> serverLibraries;
@@ -104,8 +103,8 @@ public final class MinecraftProvider {
                 throw new IllegalStateException("Got multiple versions in server version list.");
             }
 
-            var serverVersion = serverMetadata.versions().get(0);
-            copyIfNeeded(jarPath.resolve("versions"), serverVersion, extractedServerJar);
+            var extractedServerVersion = serverMetadata.versions().get(0);
+            copyIfNeeded(jarPath.resolve("versions"), extractedServerVersion, extractedServerJar);
 
             serverLibraries = serverMetadata.libraries().stream().map(ServerMetadata.IncludedFile::id).toList();
         }
@@ -117,7 +116,7 @@ public final class MinecraftProvider {
 
         return new RawArtifacts(
             new MinecraftJar(
-                new FileFingerprint(extractedServerJar, downloads.server().sha1()),
+                FileFingerprint.createImmutable(extractedServerJar),
                 new FileFingerprint(serverMappings, downloads.server_mappings().sha1()),
                 serverLibraries
             ),
@@ -140,11 +139,20 @@ public final class MinecraftProvider {
      */
     public SplitArtifacts provideSplit(Path target, RawArtifacts rawArtifacts, boolean refresh) throws IOException {
         // Split the client and server jars.
-        var clientOnlyJar = target.resolve("client-only.jar");
-        var commonJar = target.resolve("common.jar");
-        // FIXME: This doesn't correctly handle the jars changing. I don't think that'll ever happen, but worth checking!
+        var inputs = new HashingInputCollector("Split jars");
+        rawArtifacts.client().jar().addInputs(inputs);
+        rawArtifacts.server().jar().addInputs(inputs);
+        var digest = inputs.getDigest();
+
+        var clientOnlyJar = target.resolve("client-only-" + digest + ".jar");
+        var commonJar = target.resolve("common-" + digest + ".jar");
         if (refresh || !MoreFiles.exists(commonJar) || !MoreFiles.exists(clientOnlyJar)) {
             JarContentsFilter.split(rawArtifacts.server().jar().path(), rawArtifacts.client().jar().path(), commonJar, clientOnlyJar);
+
+            try (var scratch = MoreFiles.scratch(clientOnlyJar.resolveSibling(digest + ".log"))) {
+                Files.writeString(scratch.path(), inputs.toString());
+                scratch.commit();
+            }
         }
 
         var clientLibrarySet = new HashSet<>(rawArtifacts.client().dependencies());
@@ -157,7 +165,11 @@ public final class MinecraftProvider {
     }
 
     private static void copyIfNeeded(Path jarPath, ServerMetadata.IncludedFile file, Path destination) throws IOException {
-        if (Objects.equals(file.sha1(), MoreFiles.tryGetSha1(destination))) return;
+        try {
+            var sha256 = MoreFiles.computeSha256(destination);
+            if (Objects.equals(file.sha256(), sha256)) return;
+        } catch (FileNotFoundException | NoSuchFileException ignored) {
+        }
 
         try (var scratch = MoreFiles.scratch(destination)) {
             Files.copy(jarPath.resolve(file.path()), scratch.path(), StandardCopyOption.REPLACE_EXISTING);

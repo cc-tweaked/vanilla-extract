@@ -95,6 +95,10 @@ public record MinecraftVersion(
         public FileDownload.Builder downloadTo(Path destination) {
             return FileDownload.builder(url(), destination).expectSha1(sha1);
         }
+
+        public FileDownload.Builder downloadLike(Path folder, String prefix, String ext) {
+            return downloadTo(folder.resolve(prefix + "-" + sha1() + "." + ext));
+        }
     }
 
     /**

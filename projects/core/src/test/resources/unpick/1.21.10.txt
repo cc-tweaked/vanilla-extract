@@ -1,0 +1,1923 @@
+unpick v3
+
+group long chunk_ticket_type_expiration
+	net.minecraft.server.level.TicketType.NO_TIMEOUT
+
+group int chunk_ticket_type_flags
+	@flags
+	net.minecraft.server.level.TicketType.FLAG_PERSIST
+	net.minecraft.server.level.TicketType.FLAG_LOADING
+	net.minecraft.server.level.TicketType.FLAG_SIMULATION
+	net.minecraft.server.level.TicketType.FLAG_KEEP_DIMENSION_ACTIVE
+	net.minecraft.server.level.TicketType.FLAG_CAN_EXPIRE_IF_UNLOADED
+
+target_method net.minecraft.server.level.TicketType register (Ljava/lang/String;JI)Lnet/minecraft/server/level/TicketType;
+	param 1 chunk_ticket_type_expiration
+	param 2 chunk_ticket_type_flags
+
+target_method net.minecraft.server.level.TicketType <init> (JI)V
+	param 0 chunk_ticket_type_expiration
+	param 1 chunk_ticket_type_flags
+
+target_method net.minecraft.server.level.TicketType timeout ()J
+	return chunk_ticket_type_expiration
+
+target_method net.minecraft.server.level.TicketType flags ()I
+	return chunk_ticket_type_flags
+
+#: Integers in ARGB color format.
+group int argb_color
+	@format hex
+	net.minecraft.util.CommonColors.*
+	net.minecraft.realms.RealmsScreen.COLOR_DARK_GRAY
+	net.minecraft.realms.RealmsScreen.COLOR_MEDIUM_GRAY
+	net.minecraft.realms.RealmsScreen.COLOR_GREEN
+	net.minecraft.realms.RealmsScreen.COLOR_LINK
+	net.minecraft.realms.RealmsScreen.COLOR_LINK_HOVER
+
+target_method net.minecraft.util.ARGB alpha (I)I
+	param 0 argb_color
+
+target_method net.minecraft.util.ARGB red (I)I
+	param 0 argb_color
+
+target_method net.minecraft.util.ARGB green (I)I
+	param 0 argb_color
+
+target_method net.minecraft.util.ARGB blue (I)I
+	param 0 argb_color
+
+target_method net.minecraft.util.ARGB color (IIII)I
+	return argb_color
+
+target_method net.minecraft.util.ARGB color (III)I
+	return argb_color
+
+target_method net.minecraft.util.ARGB color (Lnet/minecraft/world/phys/Vec3;)I
+	return argb_color
+
+target_method net.minecraft.util.ARGB multiply (II)I
+	param 0 argb_color
+	param 1 argb_color
+	return argb_color
+
+target_method net.minecraft.util.ARGB scaleRGB (IF)I
+	param 0 argb_color
+	return argb_color
+
+target_method net.minecraft.util.ARGB scaleRGB (II)I
+	param 0 argb_color
+	return argb_color
+
+target_method net.minecraft.util.ARGB greyscale (I)I
+	param 0 argb_color
+	return argb_color
+
+target_method net.minecraft.util.ARGB lerp (FII)I
+	param 1 argb_color
+	param 2 argb_color
+	return argb_color
+
+target_method net.minecraft.util.ARGB opaque (I)I
+	param 0 argb_color
+	return argb_color
+
+target_method net.minecraft.util.ARGB transparent (I)I
+	param 0 argb_color
+	return argb_color
+
+target_method net.minecraft.util.ARGB color (II)I
+	param 1 argb_color
+	return argb_color
+
+target_method net.minecraft.util.ARGB color (FI)I
+	param 1 argb_color
+	return argb_color
+
+target_method net.minecraft.util.ARGB white (F)I
+	return argb_color
+
+target_method net.minecraft.util.ARGB colorFromFloat (FFFF)I
+	return argb_color
+
+target_method net.minecraft.util.ARGB average (II)I
+	param 0 argb_color
+	param 1 argb_color
+	return argb_color
+
+target_method net.minecraft.util.ARGB toABGR (I)I
+	param 0 argb_color
+
+target_method net.minecraft.util.ARGB fromABGR (I)I
+	return argb_color
+
+target_method net.minecraft.client.gui.Font drawInBatch (Ljava/lang/String;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)V
+	param 3 argb_color
+
+target_method net.minecraft.client.gui.Font drawInBatch (Lnet/minecraft/network/chat/Component;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)V
+	param 3 argb_color
+
+target_method net.minecraft.client.gui.Font drawInBatch (Lnet/minecraft/util/FormattedCharSequence;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)V
+	param 3 argb_color
+
+target_method net.minecraft.client.gui.Font drawInBatch8xOutline (Lnet/minecraft/util/FormattedCharSequence;FFIILorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;I)V
+	param 3 argb_color
+	param 4 argb_color
+
+target_method net.minecraft.client.renderer.debug.DebugRenderer renderFloatingText (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Ljava/lang/String;IIII)V
+	param 6 argb_color
+
+target_method net.minecraft.client.renderer.debug.DebugRenderer renderFloatingText (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Ljava/lang/String;DDDI)V
+	param 6 argb_color
+
+target_method net.minecraft.client.renderer.debug.DebugRenderer renderFloatingText (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Ljava/lang/String;DDDIF)V
+	param 6 argb_color
+
+target_method net.minecraft.client.renderer.debug.DebugRenderer renderFloatingText (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Ljava/lang/String;DDDIFZFZ)V
+	param 6 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics drawCenteredString (Lnet/minecraft/client/gui/Font;Ljava/lang/String;III)V
+	param 4 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics drawCenteredString (Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V
+	param 4 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics drawCenteredString (Lnet/minecraft/client/gui/Font;Lnet/minecraft/util/FormattedCharSequence;III)V
+	param 4 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics drawString (Lnet/minecraft/client/gui/Font;Ljava/lang/String;III)V
+	param 4 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics drawString (Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)V
+	param 4 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics drawString (Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V
+	param 4 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics drawString (Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V
+	param 4 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics drawWordWrap (Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/FormattedText;IIIIZ)V
+	param 5 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics drawWordWrap (Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/FormattedText;IIII)V
+	param 5 argb_color
+
+target_method net.minecraft.client.gui.components.AbstractStringWidget setColor (I)Lnet/minecraft/client/gui/components/AbstractStringWidget;
+	param 0 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics hLine (IIII)V
+	param 3 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics vLine (IIII)V
+	param 3 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics fill (IIIII)V
+	param 4 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics fill (Lcom/mojang/blaze3d/pipeline/RenderPipeline;IIIII)V
+	param 5 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics fillGradient (IIIIII)V
+	param 4 argb_color
+	param 5 argb_color
+
+target_method net.minecraft.client.gui.GuiGraphics submitOutline (IIIII)V
+	param 4 argb_color
+
+target_method com.mojang.blaze3d.vertex.VertexConsumer setColor (I)Lcom/mojang/blaze3d/vertex/VertexConsumer;
+	param 0 argb_color
+
+target_method net.minecraft.network.chat.TextColor fromRgb (I)Lnet/minecraft/network/chat/TextColor;
+	param 0 argb_color
+
+target_method net.minecraft.network.chat.Style withColor (I)Lnet/minecraft/network/chat/Style;
+	param 0 argb_color
+
+target_method net.minecraft.network.chat.MutableComponent withColor (I)Lnet/minecraft/network/chat/MutableComponent;
+	param 0 argb_color
+
+group int cursor_shape
+	org.lwjgl.glfw.GLFW.GLFW_ARROW_CURSOR
+	org.lwjgl.glfw.GLFW.GLFW_IBEAM_CURSOR
+	org.lwjgl.glfw.GLFW.GLFW_CROSSHAIR_CURSOR
+	org.lwjgl.glfw.GLFW.GLFW_POINTING_HAND_CURSOR
+	org.lwjgl.glfw.GLFW.GLFW_RESIZE_EW_CURSOR
+	org.lwjgl.glfw.GLFW.GLFW_RESIZE_NS_CURSOR
+	org.lwjgl.glfw.GLFW.GLFW_RESIZE_NWSE_CURSOR
+	org.lwjgl.glfw.GLFW.GLFW_RESIZE_NESW_CURSOR
+	org.lwjgl.glfw.GLFW.GLFW_RESIZE_ALL_CURSOR
+	org.lwjgl.glfw.GLFW.GLFW_NOT_ALLOWED_CURSOR
+
+target_method com.mojang.blaze3d.platform.cursor.CursorType createStandardCursor (ILjava/lang/String;Lcom/mojang/blaze3d/platform/cursor/CursorType;)Lcom/mojang/blaze3d/platform/cursor/CursorType;
+	param 0 cursor_shape
+
+#: Flags used in {@link net.minecraft.entity.passive.BeeEntity#BEE_FLAGS BEE_FLAGS}.
+group int bee_flags
+	@flags
+	net.minecraft.world.entity.animal.Bee.FLAG_ROLL
+	net.minecraft.world.entity.animal.Bee.FLAG_HAS_STUNG
+	net.minecraft.world.entity.animal.Bee.FLAG_HAS_NECTAR
+
+target_method net.minecraft.world.entity.animal.Bee getFlag (I)Z
+	param 0 bee_flags
+
+target_method net.minecraft.world.entity.animal.Bee setFlag (IZ)V
+	param 0 bee_flags
+
+#: Flags used in {@link net.minecraft.entity.passive.FoxEntity#FOX_FLAGS FOX_FLAGS}.
+group int fox_flags
+	@flags
+	net.minecraft.world.entity.animal.Fox.FLAG_SITTING
+	net.minecraft.world.entity.animal.Fox.FLAG_CROUCHING
+	net.minecraft.world.entity.animal.Fox.FLAG_INTERESTED
+	net.minecraft.world.entity.animal.Fox.FLAG_POUNCING
+	net.minecraft.world.entity.animal.Fox.FLAG_SLEEPING
+	net.minecraft.world.entity.animal.Fox.FLAG_FACEPLANTED
+	net.minecraft.world.entity.animal.Fox.FLAG_DEFENDING
+
+target_method net.minecraft.world.entity.animal.Fox getFlag (I)Z
+	param 0 fox_flags
+
+target_method net.minecraft.world.entity.animal.Fox setFlag (IZ)V
+	param 0 fox_flags
+
+#: Flags used in {@link net.minecraft.entity.passive.AbstractHorseEntity#HORSE_FLAGS HORSE_FLAGS}.
+group int horse_flags
+	@flags
+	net.minecraft.world.entity.animal.horse.AbstractHorse.FLAG_TAME
+	net.minecraft.world.entity.animal.horse.AbstractHorse.FLAG_BRED
+	net.minecraft.world.entity.animal.horse.AbstractHorse.FLAG_EATING
+	net.minecraft.world.entity.animal.horse.AbstractHorse.FLAG_STANDING
+	net.minecraft.world.entity.animal.horse.AbstractHorse.FLAG_OPEN_MOUTH
+
+target_method net.minecraft.world.entity.animal.horse.AbstractHorse getFlag (I)Z
+	param 0 horse_flags
+
+target_method net.minecraft.world.entity.animal.horse.AbstractHorse setFlag (IZ)V
+	param 0 horse_flags
+
+#: Flags used in {@link net.minecraft.entity.LivingEntity#LIVING_FLAGS LIVING_FLAGS}.
+group int living_entity_flags
+	@flags
+	net.minecraft.world.entity.LivingEntity.LIVING_ENTITY_FLAG_IS_USING
+	net.minecraft.world.entity.LivingEntity.LIVING_ENTITY_FLAG_OFF_HAND
+	net.minecraft.world.entity.LivingEntity.LIVING_ENTITY_FLAG_SPIN_ATTACK
+
+target_method net.minecraft.world.entity.LivingEntity setLivingEntityFlag (IZ)V
+	param 0 living_entity_flags
+
+#: Flags used in {@link net.minecraft.entity.passive.PandaEntity#PANDA_FLAGS PANDA_FLAGS}.
+group int panda_flags
+	@flags
+	net.minecraft.world.entity.animal.Panda.FLAG_SNEEZE
+	net.minecraft.world.entity.animal.Panda.FLAG_ROLL
+	net.minecraft.world.entity.animal.Panda.FLAG_SIT
+	net.minecraft.world.entity.animal.Panda.FLAG_ON_BACK
+
+target_method net.minecraft.world.entity.animal.Panda getFlag (I)Z
+	param 0 panda_flags
+
+target_method net.minecraft.world.entity.animal.Panda setFlag (IZ)V
+	param 0 panda_flags
+
+#: Flags used in {@link net.minecraft.entity.projectile.PersistentProjectileEntity.PROJECTILE_FLAGS PROJECTILE_FLAGS}.
+group int persistent_projectile_flags
+	@flags
+	net.minecraft.world.entity.projectile.AbstractArrow.FLAG_CRIT
+	net.minecraft.world.entity.projectile.AbstractArrow.FLAG_NOPHYSICS
+
+target_method net.minecraft.world.entity.projectile.AbstractArrow setFlag (IZ)V
+	param 0 persistent_projectile_flags
+
+#: Flags used in {@link net.minecraft.entity.mob.VexEntity#VEX_FLAGS VEX_FLAGS}.
+group int vex_flags
+	@flags
+	net.minecraft.world.entity.monster.Vex.FLAG_IS_CHARGING
+
+target_method net.minecraft.world.entity.monster.Vex getVexFlag (I)Z
+	param 0 vex_flags
+
+target_method net.minecraft.world.entity.monster.Vex setVexFlag (IZ)V
+	param 0 vex_flags
+
+#: Flags used in {@link net.minecraft.entity.decoration.ArmorStandEntity#ARMOR_STAND_FLAGS ARMOR_STAND_FLAGS}.
+group int armor_stand_flags
+	@flags
+	net.minecraft.world.entity.decoration.ArmorStand.CLIENT_FLAG_SMALL
+	net.minecraft.world.entity.decoration.ArmorStand.CLIENT_FLAG_SHOW_ARMS
+	net.minecraft.world.entity.decoration.ArmorStand.CLIENT_FLAG_NO_BASEPLATE
+	net.minecraft.world.entity.decoration.ArmorStand.CLIENT_FLAG_MARKER
+
+target_method net.minecraft.world.entity.decoration.ArmorStand setBit (BIZ)B
+	param 1 armor_stand_flags
+
+#: Flags used in {@link net.minecraft.entity.decoration.DisplayEntity.TextDisplayEntity#TEXT_DISPLAY_FLAGS TEXT_DISPLAY_FLAGS}.
+group int text_display_flags
+	@flags
+	net.minecraft.world.entity.Display$TextDisplay.FLAG_SHADOW
+	net.minecraft.world.entity.Display$TextDisplay.FLAG_SEE_THROUGH
+	net.minecraft.world.entity.Display$TextDisplay.FLAG_USE_DEFAULT_BACKGROUND
+	net.minecraft.world.entity.Display$TextDisplay.FLAG_ALIGN_LEFT
+	net.minecraft.world.entity.Display$TextDisplay.FLAG_ALIGN_RIGHT
+
+target_method net.minecraft.world.entity.Display$TextDisplay loadFlag (BLnet/minecraft/world/level/storage/ValueInput;Ljava/lang/String;B)B
+	param 3 text_display_flags
+
+target_method net.minecraft.world.entity.Display$TextDisplay storeFlag (BLnet/minecraft/world/level/storage/ValueOutput;Ljava/lang/String;B)V
+	param 3 text_display_flags
+
+target_method net.minecraft.world.entity.Display$TextDisplay getAlign (B)Lnet/minecraft/world/entity/Display$TextDisplay$Align;
+	param 0 text_display_flags
+
+target_method net.minecraft.world.entity.Display$TextDisplay$TextRenderState flags ()B
+	return text_display_flags
+
+#: Flags indices used in {@link net.minecraft.entity.Entity#FLAGS Entity.FLAGS}.
+#: 
+#: <p>The mask for the flag with index {@code k} is computed with the formula {@code 1 << k}.
+group int entity_flag_index
+	net.minecraft.world.entity.Entity.FLAG_ONFIRE
+	net.minecraft.world.entity.Entity.FLAG_SHIFT_KEY_DOWN
+	net.minecraft.world.entity.Entity.FLAG_SPRINTING
+	net.minecraft.world.entity.Entity.FLAG_SWIMMING
+	net.minecraft.world.entity.Entity.FLAG_INVISIBLE
+	net.minecraft.world.entity.Entity.FLAG_GLOWING
+	net.minecraft.world.entity.Entity.FLAG_FALL_FLYING
+
+target_method net.minecraft.world.entity.Entity getSharedFlag (I)Z
+	param 0 entity_flag_index
+
+target_method net.minecraft.world.entity.Entity setSharedFlag (IZ)V
+	param 0 entity_flag_index
+
+#: Entity model part names.
+group String entity_model_parts
+	net.minecraft.client.model.geom.PartNames.*
+
+target_method net.minecraft.client.model.geom.ModelPart getChild (Ljava/lang/String;)Lnet/minecraft/client/model/geom/ModelPart;
+	param 0 entity_model_parts
+
+target_method net.minecraft.client.model.geom.builders.CubeListBuilder addBox (Ljava/lang/String;FFFIIILnet/minecraft/client/model/geom/builders/CubeDeformation;II)Lnet/minecraft/client/model/geom/builders/CubeListBuilder;
+	param 0 entity_model_parts
+
+target_method net.minecraft.client.model.geom.builders.CubeListBuilder addBox (Ljava/lang/String;FFFIIIII)Lnet/minecraft/client/model/geom/builders/CubeListBuilder;
+	param 0 entity_model_parts
+
+target_method net.minecraft.client.model.geom.builders.CubeListBuilder addBox (Ljava/lang/String;FFFFFF)Lnet/minecraft/client/model/geom/builders/CubeListBuilder;
+	param 0 entity_model_parts
+
+target_method net.minecraft.client.model.geom.builders.CubeListBuilder addBox (Ljava/lang/String;FFFFFFLnet/minecraft/client/model/geom/builders/CubeDeformation;)Lnet/minecraft/client/model/geom/builders/CubeListBuilder;
+	param 0 entity_model_parts
+
+target_method net.minecraft.client.model.geom.builders.PartDefinition getChild (Ljava/lang/String;)Lnet/minecraft/client/model/geom/builders/PartDefinition;
+	param 0 entity_model_parts
+
+target_method net.minecraft.client.model.geom.builders.PartDefinition clearChild (Ljava/lang/String;)Lnet/minecraft/client/model/geom/builders/PartDefinition;
+	param 0 entity_model_parts
+
+target_method net.minecraft.client.model.geom.builders.PartDefinition addOrReplaceChild (Ljava/lang/String;Lnet/minecraft/client/model/geom/builders/CubeListBuilder;Lnet/minecraft/client/model/geom/PartPose;)Lnet/minecraft/client/model/geom/builders/PartDefinition;
+	param 0 entity_model_parts
+
+target_method net.minecraft.client.model.geom.builders.PartDefinition addOrReplaceChild (Ljava/lang/String;Lnet/minecraft/client/model/geom/builders/PartDefinition;)Lnet/minecraft/client/model/geom/builders/PartDefinition;
+	param 0 entity_model_parts
+
+#: Entity statuses. See {@link net.minecraft.entity.Entity#handleStatus(byte) Entity.handleStatus}.
+group int entity_status
+	net.minecraft.world.entity.EntityEvent.*
+
+target_method net.minecraft.world.entity.Entity handleEntityEvent (B)V
+	param 0 entity_status
+
+target_method net.minecraft.world.level.Level broadcastEntityEvent (Lnet/minecraft/world/entity/Entity;B)V
+	param 1 entity_status
+
+target_method net.minecraft.network.protocol.game.ClientboundEntityEventPacket <init> (Lnet/minecraft/world/entity/Entity;B)V
+	param 1 entity_status
+
+target_method net.minecraft.network.protocol.game.ClientboundEntityEventPacket getEventId ()B
+	return entity_status
+
+group int error_code
+	org.lwjgl.glfw.GLFW.GLFW_NO_ERROR
+	org.lwjgl.glfw.GLFW.GLFW_NOT_INITIALIZED
+	org.lwjgl.glfw.GLFW.GLFW_NO_CURRENT_CONTEXT
+	org.lwjgl.glfw.GLFW.GLFW_INVALID_ENUM
+	org.lwjgl.glfw.GLFW.GLFW_INVALID_VALUE
+	org.lwjgl.glfw.GLFW.GLFW_OUT_OF_MEMORY
+	org.lwjgl.glfw.GLFW.GLFW_API_UNAVAILABLE
+	org.lwjgl.glfw.GLFW.GLFW_VERSION_UNAVAILABLE
+	org.lwjgl.glfw.GLFW.GLFW_PLATFORM_ERROR
+	org.lwjgl.glfw.GLFW.GLFW_FORMAT_UNAVAILABLE
+	org.lwjgl.glfw.GLFW.GLFW_NO_WINDOW_CONTEXT
+	org.lwjgl.glfw.GLFW.GLFW_CURSOR_UNAVAILABLE
+	org.lwjgl.glfw.GLFW.GLFW_FEATURE_UNAVAILABLE
+	org.lwjgl.glfw.GLFW.GLFW_FEATURE_UNIMPLEMENTED
+	org.lwjgl.glfw.GLFW.GLFW_PLATFORM_UNAVAILABLE
+
+target_method org.lwjgl.glfw.GLFWErrorCallbackI invoke (IJ)V
+	param 0 error_code
+
+group int gl_depth_test_function
+	com.mojang.blaze3d.opengl.GlConst.GL_EQUAL
+	com.mojang.blaze3d.opengl.GlConst.GL_LEQUAL
+	com.mojang.blaze3d.opengl.GlConst.GL_LESS
+	com.mojang.blaze3d.opengl.GlConst.GL_GREATER
+	com.mojang.blaze3d.opengl.GlConst.GL_GEQUAL
+	com.mojang.blaze3d.opengl.GlConst.GL_ALWAYS
+
+group int gl_polygon_mode
+	com.mojang.blaze3d.opengl.GlConst.GL_LINE
+	com.mojang.blaze3d.opengl.GlConst.GL_FILL
+
+group int gl_draw_mode
+	com.mojang.blaze3d.opengl.GlConst.GL_LINES
+	com.mojang.blaze3d.opengl.GlConst.GL_LINE_STRIP
+	com.mojang.blaze3d.opengl.GlConst.GL_TRIANGLE_STRIP
+	com.mojang.blaze3d.opengl.GlConst.GL_TRIANGLE_FAN
+	com.mojang.blaze3d.opengl.GlConst.GL_TRIANGLES
+
+group int gl_address_mode
+	com.mojang.blaze3d.opengl.GlConst.GL_CLAMP_TO_EDGE
+	com.mojang.blaze3d.opengl.GlConst.GL_REPEAT
+
+group int gl_framebuffer_target
+	com.mojang.blaze3d.opengl.GlConst.GL_FRAMEBUFFER
+	com.mojang.blaze3d.opengl.GlConst.GL_READ_FRAMEBUFFER
+	com.mojang.blaze3d.opengl.GlConst.GL_DRAW_FRAMEBUFFER
+
+group int gl_filter
+	com.mojang.blaze3d.opengl.GlConst.GL_NEAREST
+	com.mojang.blaze3d.opengl.GlConst.GL_LINEAR
+
+group int gl_tex_target
+	com.mojang.blaze3d.opengl.GlConst.GL_TEXTURE_2D
+	com.mojang.blaze3d.opengl.GlConst.GL_PROXY_TEXTURE_2D
+
+group int gl_tex_parameter_pname
+	com.mojang.blaze3d.opengl.GlConst.GL_TEXTURE_MAG_FILTER
+	com.mojang.blaze3d.opengl.GlConst.GL_TEXTURE_MIN_FILTER
+	com.mojang.blaze3d.opengl.GlConst.GL_TEXTURE_COMPARE_MODE
+	com.mojang.blaze3d.opengl.GlConst.GL_TEXTURE_WRAP_S
+	com.mojang.blaze3d.opengl.GlConst.GL_TEXTURE_WRAP_T
+	org.lwjgl.opengl.GL12.GL_TEXTURE_MAX_LEVEL
+	org.lwjgl.opengl.GL12.GL_TEXTURE_MAX_LOD
+	org.lwjgl.opengl.GL12.GL_TEXTURE_MIN_LOD
+	org.lwjgl.opengl.GL14.GL_TEXTURE_LOD_BIAS
+
+group int gl_tex_level_parameter_pname
+	com.mojang.blaze3d.opengl.GlConst.GL_TEXTURE_WIDTH
+
+group int gl_tex_parameter_value
+	com.mojang.blaze3d.opengl.GlConst.GL_NEAREST
+	com.mojang.blaze3d.opengl.GlConst.GL_LINEAR
+	com.mojang.blaze3d.opengl.GlConst.GL_CLAMP_TO_EDGE
+	com.mojang.blaze3d.opengl.GlConst.GL_NEAREST_MIPMAP_LINEAR
+	com.mojang.blaze3d.opengl.GlConst.GL_LINEAR_MIPMAP_LINEAR
+
+group int gl_tex_format
+	com.mojang.blaze3d.opengl.GlConst.GL_DEPTH_COMPONENT
+	com.mojang.blaze3d.opengl.GlConst.GL_DEPTH_COMPONENT32
+	com.mojang.blaze3d.opengl.GlConst.GL_RGBA8
+	com.mojang.blaze3d.opengl.GlConst.GL_RGBA
+	com.mojang.blaze3d.opengl.GlConst.GL_BGR
+	com.mojang.blaze3d.opengl.GlConst.GL_RG
+	com.mojang.blaze3d.opengl.GlConst.GL_R8
+	com.mojang.blaze3d.opengl.GlConst.GL_RGB
+	com.mojang.blaze3d.opengl.GlConst.GL_RED
+	org.lwjgl.opengl.GL12.GL_BGRA
+	org.lwjgl.opengl.GL30.GL_R8I
+
+group int gl_type
+	com.mojang.blaze3d.opengl.GlConst.GL_BYTE
+	com.mojang.blaze3d.opengl.GlConst.GL_UNSIGNED_BYTE
+	com.mojang.blaze3d.opengl.GlConst.GL_SHORT
+	com.mojang.blaze3d.opengl.GlConst.GL_UNSIGNED_SHORT
+	com.mojang.blaze3d.opengl.GlConst.GL_INT
+	com.mojang.blaze3d.opengl.GlConst.GL_UNSIGNED_INT
+	com.mojang.blaze3d.opengl.GlConst.GL_FLOAT
+	org.lwjgl.opengl.GL20.GL_FLOAT_VEC2
+	org.lwjgl.opengl.GL20.GL_FLOAT_VEC3
+	org.lwjgl.opengl.GL20.GL_FLOAT_VEC4
+	org.lwjgl.opengl.GL20.GL_FLOAT_MAT4
+
+group int gl_framebuffer_attachment
+	com.mojang.blaze3d.opengl.GlConst.GL_COLOR_ATTACHMENT0
+	com.mojang.blaze3d.opengl.GlConst.GL_DEPTH_ATTACHMENT
+
+group int gl_framebuffer_status
+	com.mojang.blaze3d.opengl.GlConst.GL_FRAMEBUFFER_COMPLETE
+	com.mojang.blaze3d.opengl.GlConst.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
+	com.mojang.blaze3d.opengl.GlConst.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
+	com.mojang.blaze3d.opengl.GlConst.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER
+	com.mojang.blaze3d.opengl.GlConst.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER
+	com.mojang.blaze3d.opengl.GlConst.GL_FRAMEBUFFER_UNSUPPORTED
+	com.mojang.blaze3d.opengl.GlConst.GL_OUT_OF_MEMORY
+
+group int gl_arb_buffer_flags
+	@flags
+	org.lwjgl.opengl.GL30.GL_MAP_READ_BIT
+	org.lwjgl.opengl.GL30.GL_MAP_WRITE_BIT
+	org.lwjgl.opengl.ARBBufferStorage.GL_DYNAMIC_STORAGE_BIT
+	org.lwjgl.opengl.ARBBufferStorage.GL_CLIENT_STORAGE_BIT
+	org.lwjgl.opengl.ARBBufferStorage.GL_MAP_PERSISTENT_BIT
+	org.lwjgl.opengl.ARBBufferStorage.GL_MAP_COHERENT_BIT
+
+group int gpu_buffer_flags
+	@flags
+	com.mojang.blaze3d.buffers.GpuBuffer.USAGE_MAP_READ
+	com.mojang.blaze3d.buffers.GpuBuffer.USAGE_MAP_WRITE
+	com.mojang.blaze3d.buffers.GpuBuffer.USAGE_HINT_CLIENT_STORAGE
+	com.mojang.blaze3d.buffers.GpuBuffer.USAGE_COPY_DST
+	com.mojang.blaze3d.buffers.GpuBuffer.USAGE_COPY_SRC
+	com.mojang.blaze3d.buffers.GpuBuffer.USAGE_VERTEX
+	com.mojang.blaze3d.buffers.GpuBuffer.USAGE_INDEX
+	com.mojang.blaze3d.buffers.GpuBuffer.USAGE_UNIFORM
+	com.mojang.blaze3d.buffers.GpuBuffer.USAGE_UNIFORM_TEXEL_BUFFER
+
+group int gl_blend_equation_mode
+	com.mojang.blaze3d.opengl.GlConst.GL_FUNC_ADD
+	com.mojang.blaze3d.opengl.GlConst.GL_MIN
+	com.mojang.blaze3d.opengl.GlConst.GL_MAX
+	com.mojang.blaze3d.opengl.GlConst.GL_FUNC_SUBTRACT
+	com.mojang.blaze3d.opengl.GlConst.GL_FUNC_REVERSE_SUBTRACT
+
+group int gl_khr_label_identifier
+	org.lwjgl.opengl.KHRDebug.GL_BUFFER
+	org.lwjgl.opengl.KHRDebug.GL_SHADER
+	org.lwjgl.opengl.KHRDebug.GL_PROGRAM
+	org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY
+	org.lwjgl.opengl.GL11.GL_TEXTURE
+
+group int gl_ext_label_identifier
+	org.lwjgl.opengl.EXTDebugLabel.GL_BUFFER_OBJECT_EXT
+	org.lwjgl.opengl.EXTDebugLabel.GL_SHADER_OBJECT_EXT
+	org.lwjgl.opengl.EXTDebugLabel.GL_PROGRAM_OBJECT_EXT
+	org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY
+	org.lwjgl.opengl.GL11.GL_TEXTURE
+
+group int gl_debug_source
+	org.lwjgl.opengl.GL43.GL_DEBUG_SOURCE_API
+	org.lwjgl.opengl.GL43.GL_DEBUG_SOURCE_WINDOW_SYSTEM
+	org.lwjgl.opengl.GL43.GL_DEBUG_SOURCE_SHADER_COMPILER
+	org.lwjgl.opengl.GL43.GL_DEBUG_SOURCE_THIRD_PARTY
+	org.lwjgl.opengl.GL43.GL_DEBUG_SOURCE_APPLICATION
+	org.lwjgl.opengl.GL43.GL_DEBUG_SOURCE_OTHER
+
+group int gl_debug_type
+	org.lwjgl.opengl.GL43.GL_DEBUG_TYPE_ERROR
+	org.lwjgl.opengl.GL43.GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
+	org.lwjgl.opengl.GL43.GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
+	org.lwjgl.opengl.GL43.GL_DEBUG_TYPE_PORTABILITY
+	org.lwjgl.opengl.GL43.GL_DEBUG_TYPE_PERFORMANCE
+	org.lwjgl.opengl.GL43.GL_DEBUG_TYPE_OTHER
+	org.lwjgl.opengl.GL43.GL_DEBUG_TYPE_MARKER
+
+group int gl_debug_severity
+	org.lwjgl.opengl.GL43.GL_DEBUG_SEVERITY_HIGH
+	org.lwjgl.opengl.GL43.GL_DEBUG_SEVERITY_MEDIUM
+	org.lwjgl.opengl.GL43.GL_DEBUG_SEVERITY_LOW
+	org.lwjgl.opengl.GL43.GL_DEBUG_SEVERITY_NOTIFICATION
+
+group int gl_enable_state
+	org.lwjgl.opengl.GL11.GL_BLEND
+	org.lwjgl.opengl.GL11.GL_DEPTH_TEST
+	org.lwjgl.opengl.GL11.GL_CULL_FACE
+	org.lwjgl.opengl.GL11.GL_POLYGON_OFFSET_LINE
+	org.lwjgl.opengl.GL11.GL_COLOR_LOGIC_OP
+	org.lwjgl.opengl.GL11.GL_SCISSOR_TEST
+	org.lwjgl.opengl.GL43.GL_DEBUG_OUTPUT
+	org.lwjgl.opengl.GL43.GL_DEBUG_OUTPUT_SYNCHRONOUS
+
+group int gl_hint_mode
+	org.lwjgl.opengl.GL11.GL_DONT_CARE
+
+group int gl_fence_sync_condition
+	com.mojang.blaze3d.opengl.GlConst.GL_SYNC_GPU_COMMANDS_COMPLETE
+
+group int gl_client_wait_sync_result
+	com.mojang.blaze3d.opengl.GlConst.GL_TIMEOUT_EXPIRED
+	com.mojang.blaze3d.opengl.GlConst.GL_WAIT_FAILED
+
+group int gl_draw_buffer_buf
+	com.mojang.blaze3d.opengl.GlConst.GL_COLOR_ATTACHMENT0
+
+group int gl_polygon_mode_face
+	com.mojang.blaze3d.opengl.GlConst.GL_FRONT_AND_BACK
+
+group int gl_program_pname
+	com.mojang.blaze3d.opengl.GlConst.GL_LINK_STATUS
+	com.mojang.blaze3d.opengl.GlConst.GL_COMPILE_STATUS
+	org.lwjgl.opengl.GL20.GL_ACTIVE_UNIFORMS
+	org.lwjgl.opengl.GL31.GL_ACTIVE_UNIFORM_BLOCKS
+
+group int gl_query_target
+	org.lwjgl.opengl.GL33.GL_TIME_ELAPSED
+
+group int gl_query_object_pname
+	org.lwjgl.opengl.GL15.GL_QUERY_RESULT
+	org.lwjgl.opengl.GL15.GL_QUERY_RESULT_AVAILABLE
+
+group int gl_texture
+	com.mojang.blaze3d.opengl.GlConst.GL_TEXTURE0
+	com.mojang.blaze3d.opengl.GlConst.GL_TEXTURE1
+	com.mojang.blaze3d.opengl.GlConst.GL_TEXTURE2
+
+group int gl_program_type
+	com.mojang.blaze3d.opengl.GlConst.GL_VERTEX_SHADER
+	com.mojang.blaze3d.opengl.GlConst.GL_FRAGMENT_SHADER
+
+group int gl_buffer_target
+	com.mojang.blaze3d.opengl.GlConst.GL_ARRAY_BUFFER
+	com.mojang.blaze3d.opengl.GlConst.GL_ELEMENT_ARRAY_BUFFER
+	com.mojang.blaze3d.opengl.GlConst.GL_PIXEL_PACK_BUFFER
+	com.mojang.blaze3d.opengl.GlConst.GL_COPY_READ_BUFFER
+	com.mojang.blaze3d.opengl.GlConst.GL_COPY_WRITE_BUFFER
+	com.mojang.blaze3d.opengl.GlConst.GL_PIXEL_UNPACK_BUFFER
+	com.mojang.blaze3d.opengl.GlConst.GL_UNIFORM_BUFFER
+
+group int gl_buffer_data_usage
+	com.mojang.blaze3d.opengl.GlConst.GL_STATIC_DRAW
+	com.mojang.blaze3d.opengl.GlConst.GL_DYNAMIC_DRAW
+	com.mojang.blaze3d.opengl.GlConst.GL_STREAM_DRAW
+	com.mojang.blaze3d.opengl.GlConst.GL_STATIC_READ
+	com.mojang.blaze3d.opengl.GlConst.GL_DYNAMIC_READ
+	com.mojang.blaze3d.opengl.GlConst.GL_STREAM_READ
+	com.mojang.blaze3d.opengl.GlConst.GL_STATIC_COPY
+	com.mojang.blaze3d.opengl.GlConst.GL_DYNAMIC_COPY
+	com.mojang.blaze3d.opengl.GlConst.GL_STREAM_COPY
+
+group int gl_error
+	com.mojang.blaze3d.opengl.GlConst.GL_OUT_OF_MEMORY
+
+group int gl_get_string_name
+	org.lwjgl.opengl.GL11.GL_VENDOR
+	org.lwjgl.opengl.GL11.GL_RENDERER
+	org.lwjgl.opengl.GL11.GL_VERSION
+	org.lwjgl.opengl.GL11.GL_EXTENSIONS
+
+group int gl_get_integer_pname
+	org.lwjgl.opengl.GL11.GL_MAX_TEXTURE_SIZE
+	org.lwjgl.opengl.KHRDebug.GL_MAX_LABEL_LENGTH
+	org.lwjgl.opengl.GL31.GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT
+
+group int gl_logic_op
+	org.lwjgl.opengl.GL11.GL_CLEAR
+	org.lwjgl.opengl.GL11.GL_AND
+	org.lwjgl.opengl.GL11.GL_AND_REVERSE
+	org.lwjgl.opengl.GL11.GL_COPY
+	org.lwjgl.opengl.GL11.GL_AND_INVERTED
+	org.lwjgl.opengl.GL11.GL_NOOP
+	org.lwjgl.opengl.GL11.GL_XOR
+	org.lwjgl.opengl.GL11.GL_OR
+	org.lwjgl.opengl.GL11.GL_NOR
+	org.lwjgl.opengl.GL11.GL_EQUIV
+	org.lwjgl.opengl.GL11.GL_INVERT
+	org.lwjgl.opengl.GL11.GL_OR_REVERSE
+	org.lwjgl.opengl.GL11.GL_COPY_INVERTED
+	org.lwjgl.opengl.GL11.GL_OR_INVERTED
+	org.lwjgl.opengl.GL11.GL_NAND
+	org.lwjgl.opengl.GL11.GL_SET
+
+group int gl_blend_func_factor
+	org.lwjgl.opengl.GL11.GL_SRC_ALPHA_SATURATE
+	org.lwjgl.opengl.GL14.GL_CONSTANT_ALPHA
+	org.lwjgl.opengl.GL14.GL_CONSTANT_COLOR
+	org.lwjgl.opengl.GL14.GL_ONE_MINUS_CONSTANT_ALPHA
+	org.lwjgl.opengl.GL14.GL_ONE_MINUS_CONSTANT_COLOR
+	com.mojang.blaze3d.opengl.GlConst.GL_ZERO
+	com.mojang.blaze3d.opengl.GlConst.GL_ONE
+	com.mojang.blaze3d.opengl.GlConst.GL_DST_ALPHA
+	com.mojang.blaze3d.opengl.GlConst.GL_DST_COLOR
+	com.mojang.blaze3d.opengl.GlConst.GL_ONE_MINUS_DST_ALPHA
+	com.mojang.blaze3d.opengl.GlConst.GL_ONE_MINUS_DST_COLOR
+	com.mojang.blaze3d.opengl.GlConst.GL_SRC_ALPHA
+	com.mojang.blaze3d.opengl.GlConst.GL_SRC_COLOR
+	com.mojang.blaze3d.opengl.GlConst.GL_ONE_MINUS_SRC_ALPHA
+	com.mojang.blaze3d.opengl.GlConst.GL_ONE_MINUS_SRC_COLOR
+
+group int gl_pixel_store_pname
+	com.mojang.blaze3d.opengl.GlConst.GL_UNPACK_SWAP_BYTES
+	com.mojang.blaze3d.opengl.GlConst.GL_UNPACK_LSB_FIRST
+	com.mojang.blaze3d.opengl.GlConst.GL_UNPACK_ROW_LENGTH
+	com.mojang.blaze3d.opengl.GlConst.GL_UNPACK_SKIP_ROWS
+	com.mojang.blaze3d.opengl.GlConst.GL_UNPACK_SKIP_PIXELS
+	com.mojang.blaze3d.opengl.GlConst.GL_UNPACK_ALIGNMENT
+	com.mojang.blaze3d.opengl.GlConst.GL_PACK_ALIGNMENT
+	com.mojang.blaze3d.opengl.GlConst.GL_PACK_ROW_LENGTH
+
+group int gl_map_buffer_access
+	org.lwjgl.opengl.GL30.GL_MAP_READ_BIT
+	org.lwjgl.opengl.GL30.GL_MAP_WRITE_BIT
+	org.lwjgl.opengl.GL30.GL_MAP_INVALIDATE_RANGE_BIT
+	org.lwjgl.opengl.GL30.GL_MAP_INVALIDATE_BUFFER_BIT
+	org.lwjgl.opengl.GL30.GL_MAP_FLUSH_EXPLICIT_BIT
+	org.lwjgl.opengl.GL30.GL_MAP_UNSYNCHRONIZED_BIT
+
+group int gl_buffer_mask
+	@flags
+	com.mojang.blaze3d.opengl.GlConst.GL_DEPTH_BUFFER_BIT
+	com.mojang.blaze3d.opengl.GlConst.GL_COLOR_BUFFER_BIT
+
+target_method com.mojang.blaze3d.opengl.GlConst toGl (Lcom/mojang/blaze3d/platform/DepthTestFunction;)I
+	return gl_depth_test_function
+
+target_method com.mojang.blaze3d.opengl.GlConst toGl (Lcom/mojang/blaze3d/platform/PolygonMode;)I
+	return gl_polygon_mode
+
+target_method com.mojang.blaze3d.opengl.GlConst toGl (Lcom/mojang/blaze3d/platform/DestFactor;)I
+	return gl_blend_func_factor
+
+target_method com.mojang.blaze3d.opengl.GlConst toGl (Lcom/mojang/blaze3d/platform/SourceFactor;)I
+	return gl_blend_func_factor
+
+target_method com.mojang.blaze3d.opengl.GlConst toGl (Lcom/mojang/blaze3d/vertex/VertexFormat$Mode;)I
+	return gl_draw_mode
+
+target_method com.mojang.blaze3d.opengl.GlConst toGl (Lcom/mojang/blaze3d/vertex/VertexFormat$IndexType;)I
+	return gl_type
+
+target_method com.mojang.blaze3d.opengl.GlConst toGl (Lcom/mojang/blaze3d/vertex/VertexFormatElement$Type;)I
+	return gl_type
+
+target_method com.mojang.blaze3d.opengl.GlConst toGlType (Lcom/mojang/blaze3d/textures/TextureFormat;)I
+	return gl_type
+
+target_method com.mojang.blaze3d.opengl.GlConst toGl (Lcom/mojang/blaze3d/platform/NativeImage$Format;)I
+	return gl_tex_format
+
+target_method com.mojang.blaze3d.opengl.GlConst toGl (Lcom/mojang/blaze3d/textures/AddressMode;)I
+	return gl_address_mode
+
+target_method com.mojang.blaze3d.opengl.GlConst toGlInternalId (Lcom/mojang/blaze3d/textures/TextureFormat;)I
+	return gl_tex_format
+
+target_method com.mojang.blaze3d.opengl.GlConst toGlExternalId (Lcom/mojang/blaze3d/textures/TextureFormat;)I
+	return gl_tex_format
+
+target_method com.mojang.blaze3d.opengl.GlConst toGl (Lcom/mojang/blaze3d/shaders/ShaderType;)I
+	return gl_program_type
+
+target_method com.mojang.blaze3d.opengl.GlConst bufferUsageToGlEnum (I)I
+	param 0 gpu_buffer_flags
+	return gl_buffer_data_usage
+
+target_method com.mojang.blaze3d.opengl.GlConst bufferUsageToGlFlag (I)I
+	param 0 gpu_buffer_flags
+	return gl_arb_buffer_flags
+
+target_method org.lwjgl.opengl.ARBDirectStateAccess glNamedBufferStorage (IJI)V
+	param 2 gl_arb_buffer_flags
+
+target_method org.lwjgl.opengl.ARBDirectStateAccess glNamedBufferStorage (ILjava/nio/ByteBuffer;I)V
+	param 2 gl_arb_buffer_flags
+
+target_method com.mojang.blaze3d.opengl.DirectStateAccess bufferData (IJI)V
+	param 2 gpu_buffer_flags
+
+target_method com.mojang.blaze3d.opengl.DirectStateAccess bufferData (ILjava/nio/ByteBuffer;I)V
+	param 2 gpu_buffer_flags
+
+target_method com.mojang.blaze3d.opengl.DirectStateAccess bufferStorage (IJI)V
+	param 2 gpu_buffer_flags
+
+target_method com.mojang.blaze3d.opengl.DirectStateAccess bufferStorage (ILjava/nio/ByteBuffer;I)V
+	param 2 gpu_buffer_flags
+
+target_method com.mojang.blaze3d.opengl.DirectStateAccess mapBufferRange (IIIII)Ljava/nio/ByteBuffer;
+	param 3 gl_map_buffer_access
+	param 4 gpu_buffer_flags
+
+target_method com.mojang.blaze3d.opengl.DirectStateAccess unmapBuffer (II)V
+	param 1 gpu_buffer_flags
+
+target_method com.mojang.blaze3d.opengl.DirectStateAccess flushMappedBufferRange (IIII)V
+	param 3 gpu_buffer_flags
+
+target_method com.mojang.blaze3d.systems.GpuDevice createBuffer (Ljava/util/function/Supplier;II)Lcom/mojang/blaze3d/buffers/GpuBuffer;
+	param 1 gpu_buffer_flags
+
+target_method com.mojang.blaze3d.systems.GpuDevice createBuffer (Ljava/util/function/Supplier;ILjava/nio/ByteBuffer;)Lcom/mojang/blaze3d/buffers/GpuBuffer;
+	param 1 gpu_buffer_flags
+
+target_method com.mojang.blaze3d.vertex.VertexFormat uploadToBuffer (Lcom/mojang/blaze3d/buffers/GpuBuffer;Ljava/nio/ByteBuffer;ILjava/util/function/Supplier;)Lcom/mojang/blaze3d/buffers/GpuBuffer;
+	param 2 gpu_buffer_flags
+
+target_method org.lwjgl.opengl.GL30 glBindFramebuffer (II)V
+	param 0 gl_framebuffer_target
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _glBindFramebuffer (II)V
+	param 0 gl_framebuffer_target
+
+target_method com.mojang.blaze3d.opengl.GlStateManager getFrameBuffer (I)I
+	param 0 gl_framebuffer_target
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _glFramebufferTexture2D (IIIII)V
+	param 0 gl_framebuffer_target
+	param 1 gl_framebuffer_attachment
+	param 2 gl_tex_target
+
+target_method org.lwjgl.opengl.ARBDirectStateAccess glNamedFramebufferTexture (IIII)V
+	param 1 gl_framebuffer_attachment
+
+target_method com.mojang.blaze3d.opengl.DirectStateAccess bindFrameBufferTextures (IIIII)V
+	param 4 gl_framebuffer_target
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _glBlitFrameBuffer (IIIIIIIIII)V
+	param 8 gl_buffer_mask
+	param 9 gl_filter
+
+target_method com.mojang.blaze3d.opengl.DirectStateAccess blitFrameBuffers (IIIIIIIIIIII)V
+	param 10 gl_buffer_mask
+	param 11 gl_filter
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _texParameter (III)V
+	param 0 gl_tex_target
+	param 1 gl_tex_parameter_pname
+	param 2 gl_tex_parameter_value
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _texImage2D (IIIIIIIILjava/nio/ByteBuffer;)V
+	param 0 gl_tex_target
+	param 2 gl_tex_format
+	param 6 gl_tex_format
+	param 7 gl_type
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _texSubImage2D (IIIIIIIIJ)V
+	param 0 gl_tex_target
+	param 6 gl_tex_format
+	param 7 gl_type
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _texSubImage2D (IIIIIIIILjava/nio/ByteBuffer;)V
+	param 0 gl_tex_target
+	param 6 gl_tex_format
+	param 7 gl_type
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _getTexLevelParameter (III)I
+	param 0 gl_tex_target
+	param 2 gl_tex_level_parameter_pname
+
+target_method org.lwjgl.opengl.GL11 glBindTexture (II)V
+	param 0 gl_tex_target
+
+target_method org.lwjgl.opengl.GL11C glBindTexture (II)V
+	param 0 gl_tex_target
+
+target_method org.lwjgl.opengl.GL11 glTexImage2D (IIIIIIIILjava/nio/ByteBuffer;)V
+	param 0 gl_tex_target
+	param 2 gl_tex_format
+	param 6 gl_tex_format
+
+target_method org.lwjgl.opengl.GL11 glTexParameteri (III)V
+	param 0 gl_tex_target
+
+target_method org.lwjgl.opengl.GL31 glTexBuffer (III)V
+	param 0 gl_tex_target
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _readPixels (IIIIIIJ)V
+	param 4 gl_tex_format
+	param 5 gl_type
+
+target_method com.mojang.blaze3d.opengl.GlDebug sourceToString (I)Ljava/lang/String;
+	param 0 gl_debug_source
+
+target_method com.mojang.blaze3d.opengl.GlDebug printDebugLog (IIIIIJJ)V
+	param 0 gl_debug_source
+	param 1 gl_debug_type
+	param 3 gl_debug_severity
+
+target_method com.mojang.blaze3d.opengl.GlDebug$LogEntry <init> (IIIILjava/lang/String;)V
+	param 0 gl_debug_source
+	param 1 gl_debug_type
+	param 3 gl_debug_severity
+
+target_method org.lwjgl.opengl.KHRDebug glPushDebugGroup (IILjava/lang/CharSequence;)V
+	param 0 gl_debug_source
+
+target_method com.mojang.blaze3d.opengl.GlDebug typeToString (I)Ljava/lang/String;
+	param 0 gl_debug_type
+
+target_method com.mojang.blaze3d.opengl.GlDebug severityToString (I)Ljava/lang/String;
+	param 0 gl_debug_severity
+
+target_method com.mojang.blaze3d.opengl.GlStateManager$BooleanState <init> (I)V
+	param 0 gl_enable_state
+
+target_method org.lwjgl.opengl.GL11 glEnable (I)V
+	param 0 gl_enable_state
+
+target_method org.lwjgl.opengl.KHRDebug glDebugMessageControl (III[IZ)V
+	param 0 gl_hint_mode
+	param 1 gl_hint_mode
+
+target_method org.lwjgl.opengl.ARBDebugOutput glDebugMessageControlARB (III[IZ)V
+	param 0 gl_hint_mode
+	param 1 gl_hint_mode
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _glFenceSync (II)J
+	param 0 gl_fence_sync_condition
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _glClientWaitSync (JIJ)I
+	return gl_client_wait_sync_result
+
+target_method org.lwjgl.opengl.GL11 glDrawBuffer (I)V
+	param 0 gl_draw_buffer_buf
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _polygonMode (II)V
+	param 0 gl_polygon_mode_face
+
+target_method com.mojang.blaze3d.opengl.GlStateManager glGetProgrami (II)I
+	param 1 gl_program_pname
+
+target_method com.mojang.blaze3d.opengl.GlStateManager glGetShaderi (II)I
+	param 1 gl_program_pname
+
+target_method org.lwjgl.opengl.GL15C glBeginQuery (II)V
+	param 0 gl_query_target
+
+target_method org.lwjgl.opengl.GL15C glEndQuery (I)V
+	param 0 gl_query_target
+
+target_method org.lwjgl.opengl.GL15C glGetQueryObjecti (II)I
+	param 1 gl_query_object_pname
+
+target_method org.lwjgl.opengl.ARBTimerQuery glGetQueryObjecti64 (II)J
+	param 1 gl_query_object_pname
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _glBindBuffer (II)V
+	param 0 gl_buffer_target
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _glBufferData (IJI)V
+	param 0 gl_buffer_target
+	param 2 gl_buffer_data_usage
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _glBufferData (ILjava/nio/ByteBuffer;I)V
+	param 0 gl_buffer_target
+	param 2 gl_buffer_data_usage
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _glBufferSubData (IILjava/nio/ByteBuffer;)V
+	param 0 gl_buffer_target
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _glMapBufferRange (IIII)Ljava/nio/ByteBuffer;
+	param 0 gl_buffer_target
+	param 3 gl_map_buffer_access
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _glUnmapBuffer (I)V
+	param 0 gl_buffer_target
+
+target_method org.lwjgl.opengl.GL15 glBindBuffer (II)V
+	param 0 gl_buffer_target
+
+target_method org.lwjgl.opengl.GL15 glBufferData (IJI)V
+	param 0 gl_buffer_target
+	param 2 gl_buffer_data_usage
+
+target_method org.lwjgl.opengl.GL15 glBufferData (ILjava/nio/ByteBuffer;I)V
+	param 0 gl_buffer_target
+	param 2 gl_buffer_data_usage
+
+target_method org.lwjgl.opengl.GL30 glMapBufferRange (IJJI)Ljava/nio/ByteBuffer;
+	param 0 gl_buffer_target
+	param 3 gl_map_buffer_access
+
+target_method org.lwjgl.opengl.GL30 glBindBufferRange (IIIJJ)V
+	param 0 gl_buffer_target
+
+target_method org.lwjgl.opengl.GL30 glFlushMappedBufferRange (IJJ)V
+	param 0 gl_buffer_target
+
+target_method org.lwjgl.opengl.ARBBufferStorage glBufferStorage (IJI)V
+	param 0 gl_buffer_target
+	param 2 gl_arb_buffer_flags
+
+target_method org.lwjgl.opengl.ARBBufferStorage glBufferStorage (ILjava/nio/ByteBuffer;I)V
+	param 0 gl_buffer_target
+	param 2 gl_arb_buffer_flags
+
+target_method com.mojang.blaze3d.buffers.GpuBuffer <init> (II)V
+	param 0 gpu_buffer_flags
+
+target_method com.mojang.blaze3d.buffers.GpuBuffer usage ()I
+	return gpu_buffer_flags
+
+target_method com.mojang.blaze3d.opengl.GlBuffer <init> (Ljava/util/function/Supplier;Lcom/mojang/blaze3d/opengl/DirectStateAccess;IIILjava/nio/ByteBuffer;)V
+	param 2 gpu_buffer_flags
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _getError ()I
+	return gl_error
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _getString (I)Ljava/lang/String;
+	param 0 gl_get_string_name
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _getInteger (I)I
+	param 0 gl_get_integer_pname
+
+target_method org.lwjgl.opengl.GL11 glGetInteger (I)I
+	param 0 gl_get_integer_pname
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _logicOp (I)V
+	param 0 gl_logic_op
+
+target_method com.mojang.blaze3d.opengl.GlStateManager _pixelStore (II)V
+	param 0 gl_pixel_store_pname
+
+target_method org.lwjgl.opengl.GL11 glPixelStorei (II)V
+	param 0 gl_pixel_store_pname
+
+target_method org.lwjgl.opengl.KHRDebug glObjectLabel (IILjava/lang/CharSequence;)V
+	param 0 gl_khr_label_identifier
+
+target_method org.lwjgl.opengl.EXTDebugLabel glLabelObjectEXT (IILjava/lang/CharSequence;)V
+	param 0 gl_ext_label_identifier
+
+group int input_mode
+	com.mojang.blaze3d.platform.InputConstants.CURSOR
+	org.lwjgl.glfw.GLFW.GLFW_STICKY_KEYS
+	org.lwjgl.glfw.GLFW.GLFW_STICKY_MOUSE_BUTTONS
+	org.lwjgl.glfw.GLFW.GLFW_LOCK_KEY_MODS
+	org.lwjgl.glfw.GLFW.GLFW_RAW_MOUSE_MOTION
+
+group int value
+	com.mojang.blaze3d.platform.InputConstants.CURSOR_NORMAL
+	org.lwjgl.glfw.GLFW.GLFW_CURSOR_HIDDEN
+	com.mojang.blaze3d.platform.InputConstants.CURSOR_DISABLED
+	org.lwjgl.glfw.GLFW.GLFW_CURSOR_CAPTURED
+	org.lwjgl.glfw.GLFW.GLFW_FALSE
+	org.lwjgl.glfw.GLFW.GLFW_TRUE
+
+target_method org.lwjgl.glfw.GLFW glfwSetInputMode (JII)V
+	param 1 input_mode
+	param 2 value
+
+target_method com.mojang.blaze3d.platform.InputConstants grabOrReleaseMouse (Lcom/mojang/blaze3d/platform/Window;IDD)V
+	param 1 value
+
+#: Spliterator characteristics. See {@link java.util.Spliterator#characteristics Spliterator.characteristics}.
+group int spliterator_characteristics
+	@flags
+	java.util.Spliterator.ORDERED
+	java.util.Spliterator.DISTINCT
+	java.util.Spliterator.SORTED
+	java.util.Spliterator.SIZED
+	java.util.Spliterator.NONNULL
+	java.util.Spliterator.IMMUTABLE
+	java.util.Spliterator.CONCURRENT
+	java.util.Spliterator.SUBSIZED
+
+target_method java.util.Spliterator characteristics ()I
+	return spliterator_characteristics
+
+target_method java.util.Spliterator hasCharacteristics (I)Z
+	param 0 spliterator_characteristics
+
+target_method java.util.Spliterators$AbstractSpliterator <init> (JI)V
+	param 1 spliterator_characteristics
+
+#: {@link org.joml.Matrix4f Matrix4f} {@linkplain org.joml.Matrix4fc#properties() properties}.
+group int matrix4f_properties
+	@flags
+	org.joml.Matrix4fc.PROPERTY_AFFINE
+	org.joml.Matrix4fc.PROPERTY_IDENTITY
+	org.joml.Matrix4fc.PROPERTY_ORTHONORMAL
+	org.joml.Matrix4fc.PROPERTY_PERSPECTIVE
+	org.joml.Matrix4fc.PROPERTY_TRANSLATION
+
+target_method org.joml.Matrix4fc properties ()I
+	return matrix4f_properties
+
+target_method com.mojang.math.MatrixUtil checkPropertyRaw (Lorg/joml/Matrix4fc;I)Z
+	param 1 matrix4f_properties
+
+target_method com.mojang.math.MatrixUtil checkProperty (Lorg/joml/Matrix4fc;I)Z
+	param 1 matrix4f_properties
+
+group int key
+	org.lwjgl.glfw.GLFW.GLFW_KEY_UNKNOWN
+	com.mojang.blaze3d.platform.InputConstants.KEY_0
+	com.mojang.blaze3d.platform.InputConstants.KEY_1
+	com.mojang.blaze3d.platform.InputConstants.KEY_2
+	com.mojang.blaze3d.platform.InputConstants.KEY_3
+	com.mojang.blaze3d.platform.InputConstants.KEY_4
+	com.mojang.blaze3d.platform.InputConstants.KEY_5
+	com.mojang.blaze3d.platform.InputConstants.KEY_6
+	com.mojang.blaze3d.platform.InputConstants.KEY_7
+	com.mojang.blaze3d.platform.InputConstants.KEY_8
+	com.mojang.blaze3d.platform.InputConstants.KEY_9
+	com.mojang.blaze3d.platform.InputConstants.KEY_A
+	com.mojang.blaze3d.platform.InputConstants.KEY_B
+	com.mojang.blaze3d.platform.InputConstants.KEY_C
+	com.mojang.blaze3d.platform.InputConstants.KEY_D
+	com.mojang.blaze3d.platform.InputConstants.KEY_E
+	com.mojang.blaze3d.platform.InputConstants.KEY_F
+	com.mojang.blaze3d.platform.InputConstants.KEY_G
+	com.mojang.blaze3d.platform.InputConstants.KEY_H
+	com.mojang.blaze3d.platform.InputConstants.KEY_I
+	com.mojang.blaze3d.platform.InputConstants.KEY_J
+	com.mojang.blaze3d.platform.InputConstants.KEY_K
+	com.mojang.blaze3d.platform.InputConstants.KEY_L
+	com.mojang.blaze3d.platform.InputConstants.KEY_M
+	com.mojang.blaze3d.platform.InputConstants.KEY_N
+	com.mojang.blaze3d.platform.InputConstants.KEY_O
+	com.mojang.blaze3d.platform.InputConstants.KEY_P
+	com.mojang.blaze3d.platform.InputConstants.KEY_Q
+	com.mojang.blaze3d.platform.InputConstants.KEY_R
+	com.mojang.blaze3d.platform.InputConstants.KEY_S
+	com.mojang.blaze3d.platform.InputConstants.KEY_T
+	com.mojang.blaze3d.platform.InputConstants.KEY_U
+	com.mojang.blaze3d.platform.InputConstants.KEY_V
+	com.mojang.blaze3d.platform.InputConstants.KEY_W
+	com.mojang.blaze3d.platform.InputConstants.KEY_X
+	com.mojang.blaze3d.platform.InputConstants.KEY_Y
+	com.mojang.blaze3d.platform.InputConstants.KEY_Z
+	com.mojang.blaze3d.platform.InputConstants.KEY_F1
+	com.mojang.blaze3d.platform.InputConstants.KEY_F2
+	com.mojang.blaze3d.platform.InputConstants.KEY_F3
+	com.mojang.blaze3d.platform.InputConstants.KEY_F4
+	com.mojang.blaze3d.platform.InputConstants.KEY_F5
+	com.mojang.blaze3d.platform.InputConstants.KEY_F6
+	com.mojang.blaze3d.platform.InputConstants.KEY_F7
+	com.mojang.blaze3d.platform.InputConstants.KEY_F8
+	com.mojang.blaze3d.platform.InputConstants.KEY_F9
+	com.mojang.blaze3d.platform.InputConstants.KEY_F10
+	com.mojang.blaze3d.platform.InputConstants.KEY_F11
+	com.mojang.blaze3d.platform.InputConstants.KEY_F12
+	com.mojang.blaze3d.platform.InputConstants.KEY_F13
+	com.mojang.blaze3d.platform.InputConstants.KEY_F14
+	com.mojang.blaze3d.platform.InputConstants.KEY_F15
+	com.mojang.blaze3d.platform.InputConstants.KEY_F16
+	com.mojang.blaze3d.platform.InputConstants.KEY_F17
+	com.mojang.blaze3d.platform.InputConstants.KEY_F18
+	com.mojang.blaze3d.platform.InputConstants.KEY_F19
+	com.mojang.blaze3d.platform.InputConstants.KEY_F20
+	com.mojang.blaze3d.platform.InputConstants.KEY_F21
+	com.mojang.blaze3d.platform.InputConstants.KEY_F22
+	com.mojang.blaze3d.platform.InputConstants.KEY_F23
+	com.mojang.blaze3d.platform.InputConstants.KEY_F24
+	com.mojang.blaze3d.platform.InputConstants.KEY_F25
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMLOCK
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD0
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD1
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD2
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD3
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD4
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD5
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD6
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD7
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD8
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD9
+	com.mojang.blaze3d.platform.InputConstants.KEY_ADD
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPADCOMMA
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPADENTER
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPADEQUALS
+	com.mojang.blaze3d.platform.InputConstants.KEY_MULTIPLY
+	org.lwjgl.glfw.GLFW.GLFW_KEY_KP_DIVIDE
+	org.lwjgl.glfw.GLFW.GLFW_KEY_KP_SUBTRACT
+	com.mojang.blaze3d.platform.InputConstants.KEY_DOWN
+	com.mojang.blaze3d.platform.InputConstants.KEY_LEFT
+	com.mojang.blaze3d.platform.InputConstants.KEY_RIGHT
+	com.mojang.blaze3d.platform.InputConstants.KEY_UP
+	com.mojang.blaze3d.platform.InputConstants.KEY_APOSTROPHE
+	com.mojang.blaze3d.platform.InputConstants.KEY_BACKSLASH
+	com.mojang.blaze3d.platform.InputConstants.KEY_COMMA
+	com.mojang.blaze3d.platform.InputConstants.KEY_EQUALS
+	com.mojang.blaze3d.platform.InputConstants.KEY_GRAVE
+	com.mojang.blaze3d.platform.InputConstants.KEY_LBRACKET
+	com.mojang.blaze3d.platform.InputConstants.KEY_MINUS
+	com.mojang.blaze3d.platform.InputConstants.KEY_PERIOD
+	com.mojang.blaze3d.platform.InputConstants.KEY_RBRACKET
+	com.mojang.blaze3d.platform.InputConstants.KEY_SEMICOLON
+	com.mojang.blaze3d.platform.InputConstants.KEY_SLASH
+	com.mojang.blaze3d.platform.InputConstants.KEY_SPACE
+	com.mojang.blaze3d.platform.InputConstants.KEY_TAB
+	com.mojang.blaze3d.platform.InputConstants.KEY_LALT
+	com.mojang.blaze3d.platform.InputConstants.KEY_LCONTROL
+	com.mojang.blaze3d.platform.InputConstants.KEY_LSHIFT
+	com.mojang.blaze3d.platform.InputConstants.KEY_LSUPER
+	com.mojang.blaze3d.platform.InputConstants.KEY_RALT
+	com.mojang.blaze3d.platform.InputConstants.KEY_RCONTROL
+	com.mojang.blaze3d.platform.InputConstants.KEY_RSHIFT
+	com.mojang.blaze3d.platform.InputConstants.KEY_RSUPER
+	com.mojang.blaze3d.platform.InputConstants.KEY_RETURN
+	com.mojang.blaze3d.platform.InputConstants.KEY_ESCAPE
+	com.mojang.blaze3d.platform.InputConstants.KEY_BACKSPACE
+	com.mojang.blaze3d.platform.InputConstants.KEY_DELETE
+	com.mojang.blaze3d.platform.InputConstants.KEY_END
+	com.mojang.blaze3d.platform.InputConstants.KEY_HOME
+	com.mojang.blaze3d.platform.InputConstants.KEY_INSERT
+	com.mojang.blaze3d.platform.InputConstants.KEY_PAGEDOWN
+	com.mojang.blaze3d.platform.InputConstants.KEY_PAGEUP
+	com.mojang.blaze3d.platform.InputConstants.KEY_CAPSLOCK
+	com.mojang.blaze3d.platform.InputConstants.KEY_PAUSE
+	com.mojang.blaze3d.platform.InputConstants.KEY_SCROLLLOCK
+	org.lwjgl.glfw.GLFW.GLFW_KEY_MENU
+	com.mojang.blaze3d.platform.InputConstants.KEY_PRINTSCREEN
+	org.lwjgl.glfw.GLFW.GLFW_KEY_WORLD_1
+	org.lwjgl.glfw.GLFW.GLFW_KEY_WORLD_2
+
+target_method com.mojang.blaze3d.platform.InputConstants isKeyDown (Lcom/mojang/blaze3d/platform/Window;I)Z
+	param 1 key
+
+target_method net.minecraft.client.input.KeyEvent key ()I
+	return key
+
+target_method org.lwjgl.glfw.GLFW glfwGetKeyName (II)Ljava/lang/String;
+	param 0 key
+
+target_method org.lwjgl.glfw.GLFW glfwGetKey (JI)I
+	param 0 key
+
+group int key_or_button_state
+	com.mojang.blaze3d.platform.InputConstants.PRESS
+	com.mojang.blaze3d.platform.InputConstants.RELEASE
+	com.mojang.blaze3d.platform.InputConstants.REPEAT
+
+target_method net.minecraft.client.KeyboardHandler keyPress (JILnet/minecraft/client/input/KeyEvent;)V
+	param 1 key_or_button_state
+
+target_method net.minecraft.client.MouseHandler onButton (JLnet/minecraft/client/input/MouseButtonInfo;I)V
+	param 2 key_or_button_state
+
+target_method org.lwjgl.glfw.GLFW glfwGetKey (JI)I
+	return key_or_button_state
+
+group int key_or_mouse_button
+	org.lwjgl.glfw.GLFW.GLFW_KEY_UNKNOWN
+	com.mojang.blaze3d.platform.InputConstants.KEY_0
+	com.mojang.blaze3d.platform.InputConstants.KEY_1
+	com.mojang.blaze3d.platform.InputConstants.KEY_2
+	com.mojang.blaze3d.platform.InputConstants.KEY_3
+	com.mojang.blaze3d.platform.InputConstants.KEY_4
+	com.mojang.blaze3d.platform.InputConstants.KEY_5
+	com.mojang.blaze3d.platform.InputConstants.KEY_6
+	com.mojang.blaze3d.platform.InputConstants.KEY_7
+	com.mojang.blaze3d.platform.InputConstants.KEY_8
+	com.mojang.blaze3d.platform.InputConstants.KEY_9
+	com.mojang.blaze3d.platform.InputConstants.KEY_A
+	com.mojang.blaze3d.platform.InputConstants.KEY_B
+	com.mojang.blaze3d.platform.InputConstants.KEY_C
+	com.mojang.blaze3d.platform.InputConstants.KEY_D
+	com.mojang.blaze3d.platform.InputConstants.KEY_E
+	com.mojang.blaze3d.platform.InputConstants.KEY_F
+	com.mojang.blaze3d.platform.InputConstants.KEY_G
+	com.mojang.blaze3d.platform.InputConstants.KEY_H
+	com.mojang.blaze3d.platform.InputConstants.KEY_I
+	com.mojang.blaze3d.platform.InputConstants.KEY_J
+	com.mojang.blaze3d.platform.InputConstants.KEY_K
+	com.mojang.blaze3d.platform.InputConstants.KEY_L
+	com.mojang.blaze3d.platform.InputConstants.KEY_M
+	com.mojang.blaze3d.platform.InputConstants.KEY_N
+	com.mojang.blaze3d.platform.InputConstants.KEY_O
+	com.mojang.blaze3d.platform.InputConstants.KEY_P
+	com.mojang.blaze3d.platform.InputConstants.KEY_Q
+	com.mojang.blaze3d.platform.InputConstants.KEY_R
+	com.mojang.blaze3d.platform.InputConstants.KEY_S
+	com.mojang.blaze3d.platform.InputConstants.KEY_T
+	com.mojang.blaze3d.platform.InputConstants.KEY_U
+	com.mojang.blaze3d.platform.InputConstants.KEY_V
+	com.mojang.blaze3d.platform.InputConstants.KEY_W
+	com.mojang.blaze3d.platform.InputConstants.KEY_X
+	com.mojang.blaze3d.platform.InputConstants.KEY_Y
+	com.mojang.blaze3d.platform.InputConstants.KEY_Z
+	com.mojang.blaze3d.platform.InputConstants.KEY_F1
+	com.mojang.blaze3d.platform.InputConstants.KEY_F2
+	com.mojang.blaze3d.platform.InputConstants.KEY_F3
+	com.mojang.blaze3d.platform.InputConstants.KEY_F4
+	com.mojang.blaze3d.platform.InputConstants.KEY_F5
+	com.mojang.blaze3d.platform.InputConstants.KEY_F6
+	com.mojang.blaze3d.platform.InputConstants.KEY_F7
+	com.mojang.blaze3d.platform.InputConstants.KEY_F8
+	com.mojang.blaze3d.platform.InputConstants.KEY_F9
+	com.mojang.blaze3d.platform.InputConstants.KEY_F10
+	com.mojang.blaze3d.platform.InputConstants.KEY_F11
+	com.mojang.blaze3d.platform.InputConstants.KEY_F12
+	com.mojang.blaze3d.platform.InputConstants.KEY_F13
+	com.mojang.blaze3d.platform.InputConstants.KEY_F14
+	com.mojang.blaze3d.platform.InputConstants.KEY_F15
+	com.mojang.blaze3d.platform.InputConstants.KEY_F16
+	com.mojang.blaze3d.platform.InputConstants.KEY_F17
+	com.mojang.blaze3d.platform.InputConstants.KEY_F18
+	com.mojang.blaze3d.platform.InputConstants.KEY_F19
+	com.mojang.blaze3d.platform.InputConstants.KEY_F20
+	com.mojang.blaze3d.platform.InputConstants.KEY_F21
+	com.mojang.blaze3d.platform.InputConstants.KEY_F22
+	com.mojang.blaze3d.platform.InputConstants.KEY_F23
+	com.mojang.blaze3d.platform.InputConstants.KEY_F24
+	com.mojang.blaze3d.platform.InputConstants.KEY_F25
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMLOCK
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD0
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD1
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD2
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD3
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD4
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD5
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD6
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD7
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD8
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPAD9
+	com.mojang.blaze3d.platform.InputConstants.KEY_ADD
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPADCOMMA
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPADENTER
+	com.mojang.blaze3d.platform.InputConstants.KEY_NUMPADEQUALS
+	com.mojang.blaze3d.platform.InputConstants.KEY_MULTIPLY
+	org.lwjgl.glfw.GLFW.GLFW_KEY_KP_DIVIDE
+	org.lwjgl.glfw.GLFW.GLFW_KEY_KP_SUBTRACT
+	com.mojang.blaze3d.platform.InputConstants.KEY_DOWN
+	com.mojang.blaze3d.platform.InputConstants.KEY_LEFT
+	com.mojang.blaze3d.platform.InputConstants.KEY_RIGHT
+	com.mojang.blaze3d.platform.InputConstants.KEY_UP
+	com.mojang.blaze3d.platform.InputConstants.KEY_APOSTROPHE
+	com.mojang.blaze3d.platform.InputConstants.KEY_BACKSLASH
+	com.mojang.blaze3d.platform.InputConstants.KEY_COMMA
+	com.mojang.blaze3d.platform.InputConstants.KEY_EQUALS
+	com.mojang.blaze3d.platform.InputConstants.KEY_GRAVE
+	com.mojang.blaze3d.platform.InputConstants.KEY_LBRACKET
+	com.mojang.blaze3d.platform.InputConstants.KEY_MINUS
+	com.mojang.blaze3d.platform.InputConstants.KEY_PERIOD
+	com.mojang.blaze3d.platform.InputConstants.KEY_RBRACKET
+	com.mojang.blaze3d.platform.InputConstants.KEY_SEMICOLON
+	com.mojang.blaze3d.platform.InputConstants.KEY_SLASH
+	com.mojang.blaze3d.platform.InputConstants.KEY_SPACE
+	com.mojang.blaze3d.platform.InputConstants.KEY_TAB
+	com.mojang.blaze3d.platform.InputConstants.KEY_LALT
+	com.mojang.blaze3d.platform.InputConstants.KEY_LCONTROL
+	com.mojang.blaze3d.platform.InputConstants.KEY_LSHIFT
+	com.mojang.blaze3d.platform.InputConstants.KEY_LSUPER
+	com.mojang.blaze3d.platform.InputConstants.KEY_RALT
+	com.mojang.blaze3d.platform.InputConstants.KEY_RCONTROL
+	com.mojang.blaze3d.platform.InputConstants.KEY_RSHIFT
+	com.mojang.blaze3d.platform.InputConstants.KEY_RSUPER
+	com.mojang.blaze3d.platform.InputConstants.KEY_RETURN
+	com.mojang.blaze3d.platform.InputConstants.KEY_ESCAPE
+	com.mojang.blaze3d.platform.InputConstants.KEY_BACKSPACE
+	com.mojang.blaze3d.platform.InputConstants.KEY_DELETE
+	com.mojang.blaze3d.platform.InputConstants.KEY_END
+	com.mojang.blaze3d.platform.InputConstants.KEY_HOME
+	com.mojang.blaze3d.platform.InputConstants.KEY_INSERT
+	com.mojang.blaze3d.platform.InputConstants.KEY_PAGEDOWN
+	com.mojang.blaze3d.platform.InputConstants.KEY_PAGEUP
+	com.mojang.blaze3d.platform.InputConstants.KEY_CAPSLOCK
+	com.mojang.blaze3d.platform.InputConstants.KEY_PAUSE
+	com.mojang.blaze3d.platform.InputConstants.KEY_SCROLLLOCK
+	org.lwjgl.glfw.GLFW.GLFW_KEY_MENU
+	com.mojang.blaze3d.platform.InputConstants.KEY_PRINTSCREEN
+	org.lwjgl.glfw.GLFW.GLFW_KEY_WORLD_1
+	org.lwjgl.glfw.GLFW.GLFW_KEY_WORLD_2
+	com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_LEFT
+	com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_MIDDLE
+	com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_RIGHT
+	org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_4
+	org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_5
+	org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_6
+	org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_7
+	org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_8
+
+target_method com.mojang.blaze3d.platform.InputConstants$Type addKey (Lcom/mojang/blaze3d/platform/InputConstants$Type;Ljava/lang/String;I)V
+	param 2 key_or_mouse_button
+
+target_method com.mojang.blaze3d.platform.InputConstants$Type getOrCreate (I)Lcom/mojang/blaze3d/platform/InputConstants$Key;
+	param 0 key_or_mouse_button
+
+target_method com.mojang.blaze3d.platform.InputConstants$Key <init> (Ljava/lang/String;Lcom/mojang/blaze3d/platform/InputConstants$Type;I)V
+	param 2 key_or_mouse_button
+
+target_method com.mojang.blaze3d.platform.InputConstants$Key getValue ()I
+	return key_or_mouse_button
+
+target_method net.minecraft.client.input.InputWithModifiers input ()I
+	return key_or_mouse_button
+
+target_field com.mojang.blaze3d.platform.InputConstants$Key value I key_or_mouse_button
+
+group int lightmap_coordinates
+	@flags
+	net.minecraft.client.renderer.LightTexture.FULL_BRIGHT
+	net.minecraft.client.renderer.LightTexture.FULL_SKY
+	net.minecraft.client.renderer.LightTexture.FULL_BLOCK
+
+target_method net.minecraft.client.renderer.LightTexture pack (II)I
+	return lightmap_coordinates
+
+target_method net.minecraft.client.renderer.LightTexture sky (I)I
+	param 0 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.LightTexture block (I)I
+	param 0 lightmap_coordinates
+
+target_method net.minecraft.client.gui.Font drawInBatch (Lnet/minecraft/util/FormattedCharSequence;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)V
+	param 9 lightmap_coordinates
+
+target_method net.minecraft.client.gui.Font drawInBatch (Ljava/lang/String;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)V
+	param 9 lightmap_coordinates
+
+target_method net.minecraft.client.gui.Font drawInBatch (Lnet/minecraft/network/chat/Component;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)V
+	param 9 lightmap_coordinates
+
+target_method net.minecraft.client.gui.Font drawInBatch8xOutline (Lnet/minecraft/util/FormattedCharSequence;FFIILorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;I)V
+	param 7 lightmap_coordinates
+
+target_method net.minecraft.client.model.Model renderToBuffer (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.model.Model renderToBuffer (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.model.geom.ModelPart render (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.model.geom.ModelPart render (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.model.geom.ModelPart compile (Lcom/mojang/blaze3d/vertex/PoseStack$Pose;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.MapRenderer render (Lnet/minecraft/client/renderer/state/MapRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ZI)V
+	param 4 lightmap_coordinates
+
+target_method com.mojang.blaze3d.vertex.VertexConsumer setLight (I)Lcom/mojang/blaze3d/vertex/VertexConsumer;
+	param 0 lightmap_coordinates
+
+target_method com.mojang.blaze3d.vertex.VertexConsumer putBulkData (Lcom/mojang/blaze3d/vertex/PoseStack$Pose;Lnet/minecraft/client/renderer/block/model/BakedQuad;FFFFII)V
+	param 6 lightmap_coordinates
+
+target_method com.mojang.blaze3d.vertex.VertexConsumer addVertex (FFFIFFIIFFF)V
+	param 7 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.block.ModelBlockRenderer putQuadData (Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lcom/mojang/blaze3d/vertex/PoseStack$Pose;Lnet/minecraft/client/renderer/block/model/BakedQuad;Lnet/minecraft/client/renderer/block/ModelBlockRenderer$CommonRenderStorage;I)V
+	param 7 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.block.ModelBlockRenderer renderModelFaceFlat (Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;IIZLcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Ljava/util/List;Lnet/minecraft/client/renderer/block/ModelBlockRenderer$CommonRenderStorage;)V
+	param 3 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.block.BlockRenderDispatcher renderSingleBlock (Lnet/minecraft/world/level/block/state/BlockState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II)V
+	param 3 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.block.LiquidBlockRenderer vertex (Lcom/mojang/blaze3d/vertex/VertexConsumer;FFFFFFFFI)V
+	param 9 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.block.LiquidBlockRenderer getLightColor (Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;)I
+	return lightmap_coordinates
+
+target_method net.minecraft.client.renderer.OrderedSubmitNodeCollector submitText (Lcom/mojang/blaze3d/vertex/PoseStack;FFLnet/minecraft/util/FormattedCharSequence;ZLnet/minecraft/client/gui/Font$DisplayMode;IIII)V
+	param 6 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.OrderedSubmitNodeCollector submitModel (Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/RenderType;IIILnet/minecraft/client/renderer/texture/TextureAtlasSprite;ILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V
+	param 4 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.OrderedSubmitNodeCollector submitModel (Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/RenderType;IIILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V
+	param 4 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.OrderedSubmitNodeCollector submitModelPart (Lnet/minecraft/client/model/geom/ModelPart;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/RenderType;IILnet/minecraft/client/renderer/texture/TextureAtlasSprite;)V
+	param 3 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.OrderedSubmitNodeCollector submitModelPart (Lnet/minecraft/client/model/geom/ModelPart;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/RenderType;IILnet/minecraft/client/renderer/texture/TextureAtlasSprite;ZZ)V
+	param 3 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.OrderedSubmitNodeCollector submitBlock (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/level/block/state/BlockState;III)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.OrderedSubmitNodeCollector submitBlockModel (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/RenderType;Lnet/minecraft/client/renderer/block/model/BlockStateModel;FFFIII)V
+	param 6 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.OrderedSubmitNodeCollector submitItem (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/item/ItemDisplayContext;III[ILjava/util/List;Lnet/minecraft/client/renderer/RenderType;Lnet/minecraft/client/renderer/item/ItemStackRenderState$FoilType;)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.DragonFireballRenderer vertex (Lcom/mojang/blaze3d/vertex/VertexConsumer;Lcom/mojang/blaze3d/vertex/PoseStack$Pose;IFIII)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.EnderDragonRenderer submitCrystalBeams (FFFFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V
+	param 6 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.EntityRenderer getPackedLightCoords (Lnet/minecraft/world/entity/Entity;F)I
+	return lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.ExperienceOrbRenderer vertex (Lcom/mojang/blaze3d/vertex/VertexConsumer;Lcom/mojang/blaze3d/vertex/PoseStack$Pose;FFIIIFFI)V
+	param 9 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.FishingHookRenderer vertex (Lcom/mojang/blaze3d/vertex/VertexConsumer;Lcom/mojang/blaze3d/vertex/PoseStack$Pose;IFIII)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.ItemFrameRenderer getLightCoords (ZII)I
+	param 1 lightmap_coordinates
+	param 2 lightmap_coordinates
+	return lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.AbstractMinecartRenderer submitMinecartContents (Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;Lnet/minecraft/world/level/block/state/BlockState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V
+	param 4 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.PaintingRenderer vertex (Lcom/mojang/blaze3d/vertex/PoseStack$Pose;Lcom/mojang/blaze3d/vertex/VertexConsumer;FFFFFIIII)V
+	param 10 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer renderArmorPiece (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/EquipmentSlot;ILnet/minecraft/client/renderer/entity/state/HumanoidRenderState;)V
+	param 4 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.layers.RenderLayer coloredCutoutModelCopyLayerRender (Lnet/minecraft/client/model/Model;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;II)V
+	param 4 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.layers.RenderLayer renderColoredCutoutModel (Lnet/minecraft/client/model/Model;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;II)V
+	param 4 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.layers.RenderLayer submit (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/EntityRenderState;FF)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.layers.ItemInHandLayer submitArmWithItem (Lnet/minecraft/client/renderer/entity/state/ArmedEntityRenderState;Lnet/minecraft/client/renderer/item/ItemStackRenderState;Lnet/minecraft/world/entity/HumanoidArm;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V
+	param 5 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.layers.ParrotOnShoulderLayer submitOnShoulder (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/AvatarRenderState;Lnet/minecraft/world/entity/animal/Parrot$Variant;FFZ)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.layers.StuckInBodyLayer submitStuckItem (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IFFFI)V
+	param 2 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.ItemRenderer renderItem (Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II[ILjava/util/List;Lnet/minecraft/client/renderer/RenderType;Lnet/minecraft/client/renderer/item/ItemStackRenderState$FoilType;)V
+	param 3 lightmap_coordinates
+
+target_method net.minecraft.client.renderer.entity.ItemRenderer renderQuadList (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Ljava/util/List;[III)V
+	param 4 lightmap_coordinates
+
+group int mod
+	@flags
+	@format hex
+	com.mojang.blaze3d.platform.InputConstants.MOD_SHIFT
+	com.mojang.blaze3d.platform.InputConstants.MOD_CONTROL
+	com.mojang.blaze3d.platform.InputConstants.MOD_ALT
+	com.mojang.blaze3d.platform.InputConstants.MOD_SUPER
+	com.mojang.blaze3d.platform.InputConstants.MOD_CAPS_LOCK
+	com.mojang.blaze3d.platform.InputConstants.MOD_NUM_LOCK
+
+group int glfw_monitor_event
+	org.lwjgl.glfw.GLFW.GLFW_CONNECTED
+	org.lwjgl.glfw.GLFW.GLFW_DISCONNECTED
+
+target_method com.mojang.blaze3d.platform.ScreenManager onMonitorChange (JI)V
+	param 1 glfw_monitor_event
+
+group int mouse_button
+	com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_LEFT
+	com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_RIGHT
+	com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_MIDDLE
+	org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_4
+	org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_5
+	org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_6
+	org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_7
+	org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_8
+
+target_method net.minecraft.client.input.MouseButtonInfo button ()I
+	return mouse_button
+
+target_method net.minecraft.client.input.MouseButtonEvent button ()I
+	return mouse_button
+
+group int nbt_type_id
+	net.minecraft.nbt.Tag.TAG_END
+	net.minecraft.nbt.Tag.TAG_BYTE
+	net.minecraft.nbt.Tag.TAG_SHORT
+	net.minecraft.nbt.Tag.TAG_INT
+	net.minecraft.nbt.Tag.TAG_LONG
+	net.minecraft.nbt.Tag.TAG_FLOAT
+	net.minecraft.nbt.Tag.TAG_DOUBLE
+	net.minecraft.nbt.Tag.TAG_BYTE_ARRAY
+	net.minecraft.nbt.Tag.TAG_STRING
+	net.minecraft.nbt.Tag.TAG_LIST
+	net.minecraft.nbt.Tag.TAG_COMPOUND
+	net.minecraft.nbt.Tag.TAG_INT_ARRAY
+	net.minecraft.nbt.Tag.TAG_LONG_ARRAY
+
+target_method net.minecraft.nbt.Tag getId ()B
+	return nbt_type_id
+
+target_method net.minecraft.nbt.TagTypes getType (I)Lnet/minecraft/nbt/TagType;
+	param 0 nbt_type_id
+
+group int max_string_length
+	net.minecraft.network.FriendlyByteBuf.MAX_STRING_LENGTH
+	net.minecraft.network.FriendlyByteBuf.MAX_COMPONENT_STRING_LENGTH
+
+group long max_nbt_size
+	net.minecraft.network.FriendlyByteBuf.DEFAULT_NBT_QUOTA
+
+group int max_var_int_length
+	net.minecraft.network.VarInt.MAX_VARINT_SIZE
+
+group int max_var_long_length
+	net.minecraft.network.VarLong.MAX_VARLONG_SIZE
+
+target_method net.minecraft.network.FriendlyByteBuf readUtf (I)Ljava/lang/String;
+	param 0 max_string_length
+
+target_method net.minecraft.network.FriendlyByteBuf writeUtf (Ljava/lang/String;I)Lnet/minecraft/network/FriendlyByteBuf;
+	param 1 max_string_length
+
+target_method net.minecraft.nbt.NbtAccounter <init> (JI)V
+	param 0 max_nbt_size
+
+target_method net.minecraft.nbt.NbtAccounter create (J)Lnet/minecraft/nbt/NbtAccounter;
+	param 0 max_nbt_size
+
+target_method net.minecraft.network.VarInt getByteSize (I)I
+	return max_var_int_length
+
+target_method net.minecraft.network.VarLong getByteSize (J)I
+	return max_var_long_length
+
+group int c2s_player_move_flag
+	@flags
+	net.minecraft.network.protocol.game.ServerboundMovePlayerPacket.FLAG_ON_GROUND
+	net.minecraft.network.protocol.game.ServerboundMovePlayerPacket.FLAG_HORIZONTAL_COLLISION
+
+target_method net.minecraft.network.protocol.game.ServerboundMovePlayerPacket packFlags (ZZ)I
+	return c2s_player_move_flag
+
+target_method net.minecraft.network.protocol.game.ServerboundMovePlayerPacket unpackOnGround (I)Z
+	param 0 c2s_player_move_flag
+
+target_method net.minecraft.network.protocol.game.ServerboundMovePlayerPacket unpackHorizontalCollision (I)Z
+	param 0 c2s_player_move_flag
+
+group int s2c_animation_id
+	net.minecraft.network.protocol.game.ClientboundAnimatePacket.SWING_MAIN_HAND
+	net.minecraft.network.protocol.game.ClientboundAnimatePacket.WAKE_UP
+	net.minecraft.network.protocol.game.ClientboundAnimatePacket.SWING_OFF_HAND
+	net.minecraft.network.protocol.game.ClientboundAnimatePacket.CRITICAL_HIT
+	net.minecraft.network.protocol.game.ClientboundAnimatePacket.MAGIC_CRITICAL_HIT
+
+target_method net.minecraft.network.protocol.game.ClientboundAnimatePacket <init> (Lnet/minecraft/world/entity/Entity;I)V
+	param 1 s2c_animation_id
+
+target_method net.minecraft.network.protocol.game.ClientboundAnimatePacket getAction ()I
+	return s2c_animation_id
+
+group int s2c_game_state_demo_value
+	net.minecraft.network.protocol.game.ClientboundGameEventPacket.DEMO_PARAM_INTRO
+	net.minecraft.network.protocol.game.ClientboundGameEventPacket.DEMO_PARAM_HINT_1
+	net.minecraft.network.protocol.game.ClientboundGameEventPacket.DEMO_PARAM_HINT_2
+	net.minecraft.network.protocol.game.ClientboundGameEventPacket.DEMO_PARAM_HINT_3
+	net.minecraft.network.protocol.game.ClientboundGameEventPacket.DEMO_PARAM_HINT_4
+
+target_method net.minecraft.network.protocol.game.ClientboundGameEventPacket <init> (Lnet/minecraft/network/protocol/game/ClientboundGameEventPacket$Type;F)V
+	param 1 s2c_game_state_demo_value
+
+target_method net.minecraft.network.protocol.game.ClientboundGameEventPacket getParam ()F
+	return s2c_game_state_demo_value
+
+group int s2c_player_respawn_flag
+	net.minecraft.network.protocol.game.ClientboundRespawnPacket.KEEP_ATTRIBUTE_MODIFIERS
+	net.minecraft.network.protocol.game.ClientboundRespawnPacket.KEEP_ENTITY_DATA
+	net.minecraft.network.protocol.game.ClientboundRespawnPacket.KEEP_ALL_DATA
+
+target_method net.minecraft.network.protocol.game.ClientboundRespawnPacket <init> (Lnet/minecraft/network/protocol/game/CommonPlayerSpawnInfo;B)V
+	param 1 s2c_player_respawn_flag
+
+target_method net.minecraft.network.protocol.game.ClientboundRespawnPacket dataToKeep ()B
+	return s2c_player_respawn_flag
+
+target_method net.minecraft.network.protocol.game.ClientboundRespawnPacket shouldKeep (B)Z
+	param 0 s2c_player_respawn_flag
+
+group int s2c_scoreboard_objective_update_mode
+	net.minecraft.network.protocol.game.ClientboundSetObjectivePacket.METHOD_ADD
+	net.minecraft.network.protocol.game.ClientboundSetObjectivePacket.METHOD_REMOVE
+	net.minecraft.network.protocol.game.ClientboundSetObjectivePacket.METHOD_CHANGE
+
+target_method net.minecraft.network.protocol.game.ClientboundSetObjectivePacket <init> (Lnet/minecraft/world/scores/Objective;I)V
+	param 1 s2c_scoreboard_objective_update_mode
+
+target_method net.minecraft.network.protocol.game.ClientboundSetObjectivePacket getMethod ()I
+	return s2c_scoreboard_objective_update_mode
+
+group int s2c_team_packet_type
+	net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket.METHOD_ADD
+	net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket.METHOD_REMOVE
+	net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket.METHOD_CHANGE
+	net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket.METHOD_JOIN
+	net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket.METHOD_LEAVE
+
+target_method net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket <init> (Ljava/lang/String;ILjava/util/Optional;Ljava/util/Collection;)V
+	param 1 s2c_team_packet_type
+
+target_method net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket shouldHavePlayerList (I)Z
+	param 0 s2c_team_packet_type
+
+target_method net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket shouldHaveParameters (I)Z
+	param 0 s2c_team_packet_type
+
+group int glfw_platform_value
+	org.lwjgl.glfw.GLFW.GLFW_ANY_PLATFORM
+	org.lwjgl.glfw.GLFW.GLFW_PLATFORM_WIN32
+	org.lwjgl.glfw.GLFW.GLFW_PLATFORM_COCOA
+	org.lwjgl.glfw.GLFW.GLFW_PLATFORM_WAYLAND
+	org.lwjgl.glfw.GLFW.GLFW_PLATFORM_X11
+	org.lwjgl.glfw.GLFW.GLFW_PLATFORM_NULL
+
+target_method org.lwjgl.glfw.GLFW glfwGetPlatform ()I
+	return glfw_platform_value
+
+group int pufferfish_state
+	net.minecraft.world.entity.animal.Pufferfish.STATE_SMALL
+	net.minecraft.world.entity.animal.Pufferfish.STATE_MID
+	net.minecraft.world.entity.animal.Pufferfish.STATE_FULL
+
+target_method net.minecraft.world.entity.animal.Pufferfish setPuffState (I)V
+	param 0 pufferfish_state
+
+group int screen_handler_slot_id
+	net.minecraft.world.inventory.AbstractContainerMenu.SLOT_CLICKED_OUTSIDE
+
+target_method net.minecraft.world.inventory.AbstractContainerMenu doClick (IILnet/minecraft/world/inventory/ClickType;Lnet/minecraft/world/entity/player/Player;)V
+	param 0 screen_handler_slot_id
+
+#: Flags used by {@link net.minecraft.world.ModifiableWorld#setBlockState(net.minecraft.util.math.BlockPos, net.minecraft.block.BlockState, int) World.setBlockState}.
+group int set_block_state_flags
+	@flags
+	net.minecraft.world.level.block.Block.UPDATE_SKIP_ALL_SIDEEFFECTS
+	net.minecraft.world.level.block.Block.UPDATE_NONE
+	net.minecraft.world.level.block.Block.UPDATE_ALL_IMMEDIATE
+	net.minecraft.world.level.block.Block.UPDATE_ALL
+	net.minecraft.world.level.block.Block.UPDATE_NEIGHBORS
+	net.minecraft.world.level.block.Block.UPDATE_CLIENTS
+	net.minecraft.world.level.block.Block.UPDATE_INVISIBLE
+	net.minecraft.world.level.block.Block.UPDATE_IMMEDIATE
+	net.minecraft.world.level.block.Block.UPDATE_KNOWN_SHAPE
+	net.minecraft.world.level.block.Block.UPDATE_SUPPRESS_DROPS
+	net.minecraft.world.level.block.Block.UPDATE_MOVE_BY_PISTON
+	net.minecraft.world.level.block.Block.UPDATE_SKIP_SHAPE_UPDATE_ON_WIRE
+	net.minecraft.world.level.block.Block.UPDATE_SKIP_BLOCK_ENTITY_SIDEEFFECTS
+	net.minecraft.world.level.block.Block.UPDATE_SKIP_ON_PLACE
+
+target_method net.minecraft.world.level.LevelWriter setBlock (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.LevelWriter setBlock (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.Level sendBlockUpdated (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;I)V
+	param 3 set_block_state_flags
+
+target_method net.minecraft.world.level.block.state.BlockBehaviour$BlockStateBase updateIndirectNeighbourShapes (Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;I)V
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.block.state.BlockBehaviour$BlockStateBase updateIndirectNeighbourShapes (Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;II)V
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.block.state.BlockBehaviour$BlockStateBase updateNeighbourShapes (Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;I)V
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.block.state.BlockBehaviour$BlockStateBase updateNeighbourShapes (Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;II)V
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.block.Block updateOrDestroy (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;II)V
+	param 4 set_block_state_flags
+
+target_method net.minecraft.world.level.block.Block updateOrDestroy (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;I)V
+	param 4 set_block_state_flags
+
+target_method net.minecraft.world.level.block.state.BlockBehaviour updateIndirectNeighbourShapes (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;II)V
+	param 3 set_block_state_flags
+
+target_method net.minecraft.world.level.block.DoublePlantBlock placeAt (Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;I)V
+	param 3 set_block_state_flags
+
+target_method net.minecraft.world.level.block.MossyCarpetBlock placeAt (Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;I)V
+	param 3 set_block_state_flags
+
+target_method net.minecraft.commands.arguments.blocks.BlockInput place (Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;I)Z
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.redstone.NeighborUpdater shapeUpdate (Lnet/minecraft/core/Direction;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;II)V
+	param 4 set_block_state_flags
+
+target_method net.minecraft.world.level.redstone.NeighborUpdater executeShapeUpdate (Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)V
+	param 5 set_block_state_flags
+
+target_method net.minecraft.world.level.LevelAccessor neighborShapeChanged (Lnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)V
+	param 4 set_block_state_flags
+
+target_method net.minecraft.world.level.redstone.CollectingNeighborUpdater$ShapeUpdate <init> (Lnet/minecraft/core/Direction;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;II)V
+	param 4 set_block_state_flags
+
+target_method net.minecraft.client.multiplayer.ClientLevel setServerVerifiedBlockState (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)V
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.chunk.ImposterProtoChunk setBlockState (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Lnet/minecraft/world/level/block/state/BlockState;
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.chunk.LevelChunk setBlockState (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Lnet/minecraft/world/level/block/state/BlockState;
+	param 2 set_block_state_flags
+
+target_method net.minecraft.server.level.WorldGenRegion setBlockState (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.chunk.ProtoChunk setBlockState (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Lnet/minecraft/world/level/block/state/BlockState;
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.chunk.ChunkAccess setBlockState (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Lnet/minecraft/world/level/block/state/BlockState;
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.chunk.EmptyLevelChunk setBlockState (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Lnet/minecraft/world/level/block/state/BlockState;
+	param 2 set_block_state_flags
+
+target_method net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate placeInWorld (Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings;Lnet/minecraft/util/RandomSource;I)Z
+	param 5 set_block_state_flags
+
+target_method net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate updateShapeAtEdge (Lnet/minecraft/world/level/LevelAccessor;ILnet/minecraft/world/phys/shapes/DiscreteVoxelShape;Lnet/minecraft/core/BlockPos;)V
+	param 1 set_block_state_flags
+
+target_method net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate updateShapeAtEdge (Lnet/minecraft/world/level/LevelAccessor;ILnet/minecraft/world/phys/shapes/DiscreteVoxelShape;III)V
+	param 1 set_block_state_flags
+
+group int trial_spawner_luminance
+	net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState$LightLevel.UNLIT
+	net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState$LightLevel.HALF_LIT
+	net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState$LightLevel.LIT
+
+group int trial_spawner_display_rotation_speed
+	net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState$SpinningMob.NONE
+	net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState$SpinningMob.SLOW
+	net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState$SpinningMob.FAST
+
+group int trial_spawner_cooldown
+	net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState.DELAY_BEFORE_EJECT_AFTER_KILLING_LAST_MOB
+
+target_method net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState <init> (Ljava/lang/String;ILjava/lang/String;ILnet/minecraft/world/level/block/entity/trialspawner/TrialSpawnerState$ParticleEmission;DZ)V
+	param 1 trial_spawner_luminance
+	param 3 trial_spawner_display_rotation_speed
+
+target_method net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState lightLevel ()I
+	return trial_spawner_luminance
+
+target_method net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState spinningMobSpeed ()D
+	return trial_spawner_display_rotation_speed
+
+target_method net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerStateData isReadyToOpenShutter (Lnet/minecraft/server/level/ServerLevel;FI)Z
+	param 2 trial_spawner_cooldown
+
+group int glfw_window_hint
+	org.lwjgl.glfw.GLFW.GLFW_CLIENT_API
+	org.lwjgl.glfw.GLFW.GLFW_CONTEXT_CREATION_API
+	org.lwjgl.glfw.GLFW.GLFW_CONTEXT_VERSION_MAJOR
+	org.lwjgl.glfw.GLFW.GLFW_CONTEXT_VERSION_MINOR
+	org.lwjgl.glfw.GLFW.GLFW_OPENGL_FORWARD_COMPAT
+	org.lwjgl.glfw.GLFW.GLFW_OPENGL_PROFILE
+
+group int glfw_window_hint_value
+	org.lwjgl.glfw.GLFW.GLFW_OPENGL_API
+	org.lwjgl.glfw.GLFW.GLFW_NATIVE_CONTEXT_API
+	org.lwjgl.glfw.GLFW.GLFW_OPENGL_CORE_PROFILE
+
+target_method org.lwjgl.glfw.GLFW glfwWindowHint (II)V
+	param 0 glfw_window_hint
+	param 1 glfw_window_hint_value
+
+group int mansion_size
+	net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$MansionGrid.DEFAULT_SIZE
+
+group int mansion_cell_types
+	net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$MansionGrid.CLEAR
+	net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$MansionGrid.CORRIDOR
+	net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$MansionGrid.ROOM
+	net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$MansionGrid.START_ROOM
+	net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$MansionGrid.TEST_ROOM
+	net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$MansionGrid.BLOCKED
+
+target_method net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$SimpleGrid <init> (III)V
+	param 0 mansion_size
+	param 1 mansion_size
+	param 2 mansion_cell_types
+
+target_method net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$SimpleGrid set (III)V
+	param 2 mansion_cell_types
+
+target_method net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$SimpleGrid set (IIIII)V
+	param 4 mansion_cell_types
+
+target_method net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$SimpleGrid get (II)I
+	return mansion_cell_types
+
+target_method net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$SimpleGrid setif (IIII)V
+	param 2 mansion_cell_types
+	param 3 mansion_cell_types
+
+target_method net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces$SimpleGrid edgesTo (III)Z
+	param 2 mansion_cell_types
+
+group int world_event
+	net.minecraft.world.level.block.LevelEvent.*
+
+target_method net.minecraft.world.level.LevelAccessor levelEvent (Lnet/minecraft/world/entity/Entity;ILnet/minecraft/core/BlockPos;I)V
+	param 1 world_event
+
+target_method net.minecraft.world.level.LevelAccessor levelEvent (ILnet/minecraft/core/BlockPos;I)V
+	param 0 world_event
+
+target_method net.minecraft.client.renderer.LevelEventHandler levelEvent (ILnet/minecraft/core/BlockPos;I)V
+	param 0 world_event
+
+target_method net.minecraft.world.level.Level globalLevelEvent (ILnet/minecraft/core/BlockPos;I)V
+	param 0 world_event
+
+target_method net.minecraft.client.renderer.LevelEventHandler globalLevelEvent (ILnet/minecraft/core/BlockPos;I)V
+	param 0 world_event
+
+target_method net.minecraft.network.protocol.game.ClientboundLevelEventPacket <init> (ILnet/minecraft/core/BlockPos;IZ)V
+	param 0 world_event
+
+target_method net.minecraft.network.protocol.game.ClientboundLevelEventPacket getType ()I
+	return world_event

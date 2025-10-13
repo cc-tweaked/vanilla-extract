@@ -1,17 +1,18 @@
 [versions]
 fabric-accessWidener = "2.1.0"
 fabric-mappingIo = "0.7.1"
-fabric-tinyRemapper = "0.11.0"
-fabric-unpick = "2.3.1"
+fabric-tinyRemapper = "0.12.0"
+fabric-unpick = "3.0.0-beta.9"
 
 checkerFramework = "3.42.0"
 gson = "2.10.1"
 jetbrainsAnnotations = "24.1.0"
 slf4j = "1.7.0"
+commonsCompress = "1.28.0"
 
 # IMPORTANT: Bump in Decompile.java too
-asm = "9.7.1"
-vineflower = "1.11.0"
+asm = "9.9"
+vineflower = "1.11.1"
 
 junit = "5.10.1"
 
@@ -21,6 +22,7 @@ shadow = "8.3.5"
 fabric-accessWidener = { module = "net.fabricmc:access-widener", version.ref = "fabric-accessWidener" }
 fabric-mappingIo = { module = "net.fabricmc:mapping-io", version.ref = "fabric-mappingIo" }
 fabric-tinyRemapper = { module = "net.fabricmc:tiny-remapper", version.ref = "fabric-tinyRemapper" }
+fabric-unpick = { module = "net.fabricmc.unpick:unpick", version.ref = "fabric-unpick" }
 fabric-unpickFormatUtils = { module = "net.fabricmc.unpick:unpick-format-utils", version.ref = "fabric-unpick" }
 
 asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
@@ -30,6 +32,7 @@ asm-tree = { module = "org.ow2.asm:asm-tree", version.ref = "asm" }
 asm-util = { module = "org.ow2.asm:asm-util", version.ref = "asm" }
 
 checkerFramework = { module = "org.checkerframework:checker-qual", version.ref = "checkerFramework" }
+commonsCompress = { module = "org.apache.commons:commons-compress", version.ref = "commonsCompress" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 jetbrainsAnnotations = { module = "org.jetbrains:annotations", version.ref = "jetbrainsAnnotations" }
 slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
@@ -46,7 +49,7 @@ testRuntime = ["junit-jupiter-engine"]
 
 # Dependencies
 unshadowedDeps = [
-    "asm", "asm-analysis", "asm-commons", "asm-tree", "asm-util", "gson"
+    "asm", "asm-analysis", "asm-commons", "asm-tree", "asm-util", "commonsCompress", "gson"
 ]
 
 [plugins]

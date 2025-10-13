@@ -65,13 +65,13 @@ public class MinecraftSetup {
 
         // Create a new runtime and compile-time configuration for the common/server and client jars.
         for (var config : MinecraftConfiguration.values()) {
-            configurations.create(config.getCompileConfigurationName(), c -> {
+            configurations.register(config.getCompileConfigurationName(), c -> {
                 c.setVisible(false);
                 c.setCanBeResolved(true); // Bit nasty, but needed for decompilation.
                 c.setCanBeConsumed(false);
             });
 
-            configurations.create(config.getRuntimeConfigurationName(), c -> {
+            configurations.register(config.getRuntimeConfigurationName(), c -> {
                 c.setVisible(false);
                 c.setCanBeResolved(false);
                 c.setCanBeConsumed(false);

@@ -3,6 +3,7 @@ package cc.tweaked.vanillaextract.core.util;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
@@ -62,6 +63,7 @@ public class MoreDigests {
 
     private static final MessageDigestFactory MD5 = new MessageDigestFactory("MD5");
     private static final MessageDigestFactory SHA1 = new MessageDigestFactory("SHA-1");
+    private static final MessageDigestFactory SHA256 = new MessageDigestFactory("SHA-256");
 
     public static MessageDigest createMd5() {
         return MD5.get();
@@ -71,21 +73,36 @@ public class MoreDigests {
         return SHA1.get();
     }
 
+    public static MessageDigest createSha256() {
+        return SHA256.get();
+    }
+
     /**
      * Digest a file.
      *
-     * @param digest The file to digest.
+     * @param digest The digester.
      * @param path   The path of the file.
      * @throws IOException If the file could not be read.
      */
     public static void digestFile(MessageDigest digest, Path path) throws IOException {
         try (var stream = Files.newInputStream(path)) {
-            byte[] block = new byte[8192];
-            while (true) {
-                int read = stream.read(block);
-                if (read < 0) break;
-                digest.update(block, 0, read);
-            }
+            digestStream(digest, stream);
+        }
+    }
+
+    /**
+     * Digest an {@link InputStream}.
+     *
+     * @param digest The digester.
+     * @param stream The stream to digest.
+     * @throws IOException If the stream could not be read.
+     */
+    public static void digestStream(MessageDigest digest, InputStream stream) throws IOException {
+        byte[] block = new byte[8192];
+        while (true) {
+            int read = stream.read(block);
+            if (read < 0) break;
+            digest.update(block, 0, read);
         }
     }
 

@@ -1,11 +1,13 @@
 package cc.tweaked.vanillaextract.core.util;
 
-import net.fabricmc.tinyremapper.FileSystemReference;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -14,6 +16,8 @@ import java.util.jar.Manifest;
  * Filter the contents of a jar, either splitting or merging them.
  */
 public class JarContentsFilter {
+    private static final Logger LOG = LoggerFactory.getLogger(JarContentsFilter.class);
+
     /**
      * Split the Minecraft jars.
      *
@@ -24,57 +28,31 @@ public class JarContentsFilter {
      * @throws IOException If we could not split the jar.
      */
     public static void split(Path serverJar, Path clientJar, Path common, Path clientOnly) throws IOException {
-        try (var serverRoot = FileSystemReference.openJar(serverJar);
-             var clientRoot = FileSystemReference.openJar(clientJar)) {
+        try (var serverRoot = ZipFile.builder().setPath(serverJar).get();
+             var clientRoot = ZipFile.builder().setPath(clientJar).get()) {
 
-            var serverEntries = getFiles(serverRoot.getPath("/"));
-            var clientEntries = getFiles(clientRoot.getPath("/"));
+            var serverEntries = getFiles(serverRoot);
+            var clientEntries = getFiles(clientRoot);
             checkConsistent(serverEntries, clientEntries);
 
-            Set<String> clientOnlyEntries = new HashSet<>(clientEntries.keySet());
-            clientOnlyEntries.removeAll(serverEntries.keySet());
+            var clientOnlyEntries = new HashMap<>(clientEntries);
+            clientOnlyEntries.keySet().removeAll(serverEntries.keySet());
 
-            copyEntries(serverRoot, common, serverEntries.keySet());
+            copyEntries(serverRoot, common, serverEntries);
             copyEntries(clientRoot, clientOnly, clientOnlyEntries);
         }
-
-        MoreFiles.updateSha(common);
-        MoreFiles.updateSha(clientOnly);
     }
 
-    /**
-     * Merge the Minecraft jars.
-     *
-     * @param serverJar The server jar.
-     * @param clientJar The client jar.
-     * @param merged    The output jar, which will contain files that appear in both jars.
-     * @throws IOException If we could not merge the jar.
-     */
-    public static void merge(Path serverJar, Path clientJar, Path merged) throws IOException {
-        try (var serverRoot = FileSystemReference.openJar(serverJar);
-             var clientRoot = FileSystemReference.openJar(clientJar)) {
-
-            var serverEntries = getFiles(serverRoot.getPath("/"));
-            var clientEntries = getFiles(clientRoot.getPath("/"));
-            checkConsistent(serverEntries, clientEntries);
-
-            Set<String> allEntries = new HashSet<>(clientEntries.keySet());
-            allEntries.addAll(serverEntries.keySet());
-
-            copyEntries(clientRoot, merged, allEntries);
-        }
-
-        MoreFiles.updateSha(merged);
-    }
-
-    private static void checkConsistent(Map<String, String> server, Map<String, String> client) {
+    private static void checkConsistent(Map<String, ZipEntry> server, Map<String, ZipEntry> client) {
         for (var clientEntry : client.entrySet()) {
             var path = clientEntry.getKey();
-            var clientHash = clientEntry.getValue();
+            var clientHash = clientEntry.getValue().digest();
 
-            var serverHash = server.get(path);
-            if (serverHash != null && !clientHash.equals(serverHash)) {
-                throw new IllegalStateException("Client and server have different contents for " + path);
+            var serverEntry = server.get(path);
+            if (serverEntry != null && !clientHash.equals(serverEntry.digest())) {
+                // This *should* be an error, but Minecraft 1.21.9/1.21.10 has different visibility on one method in
+                // MinecraftServer. For now, just do a warning.
+                LOG.warn("Client and server have different contents for {}", path);
             }
         }
 
@@ -85,46 +63,50 @@ public class JarContentsFilter {
         }
     }
 
-    private static Map<String, String> getFiles(Path root) throws IOException {
-        Map<String, String> paths = new HashMap<>();
-        Files.walkFileTree(root, new SimpleFileVisitor<>() {
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-                if (dir.startsWith("/META-INF")) return FileVisitResult.SKIP_SUBTREE;
-                return FileVisitResult.CONTINUE;
+    private record ZipEntry(ZipArchiveEntry entry, String digest) {
+    }
+
+    private static Map<String, ZipEntry> getFiles(ZipFile file) throws IOException {
+        Map<String, ZipEntry> paths = new HashMap<>();
+
+        var entries = file.getEntries();
+        while (entries.hasMoreElements()) {
+            var entry = entries.nextElement();
+            if (entry.isDirectory()) continue;
+            if (entry.getName().startsWith("META-INF")) continue;
+
+            var digest = MoreDigests.createMd5();
+            try (var stream = file.getInputStream(entry)) {
+                MoreDigests.digestStream(digest, stream);
             }
 
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                paths.put(file.toString(), MoreFiles.computeMd5(file));
-                return FileVisitResult.CONTINUE;
-            }
-        });
+            var existing = paths.putIfAbsent(entry.getName(), new ZipEntry(entry, MoreDigests.toHexString(digest)));
+            if (existing != null) throw new IllegalStateException("Duplicate zip entry " + entry.getName());
+        }
+
         return Collections.unmodifiableMap(paths);
     }
 
-    private static void copyEntries(FileSystemReference source, Path destination, Collection<String> files) throws IOException {
-        List<String> sortedFiles = new ArrayList<String>(files);
-        sortedFiles.sort(Comparator.naturalOrder());
+    private static void copyEntries(ZipFile source, Path destination, Map<String, ZipEntry> files) throws IOException {
+        List<ZipEntry> sortedFiles = new ArrayList<>(files.values());
+        sortedFiles.sort(Comparator.comparing(a -> a.entry().getName()));
 
         try (var scratch = MoreFiles.scratchZip(destination)) {
-            try (var output = FileSystemReference.openJar(scratch.path())) {
+            try (var output = new ZipArchiveOutputStream(scratch.path())) {
                 // Write the manifest.
                 var manifest = new Manifest();
                 manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                manifest.write(out);
 
-                Files.createDirectories(output.getPath("META-INF"));
-                Files.write(output.getPath("META-INF/MANIFEST.MF"), out.toByteArray());
+                var manifestEntry = new ZipArchiveEntry("META-INF/MANIFEST.MF");
+                manifestEntry.setTime(0);
+
+                output.putArchiveEntry(manifestEntry);
+                manifest.write(output);
+                output.closeArchiveEntry();
 
                 // Write each file within the jar
                 for (var file : sortedFiles) {
-                    var sourceFile = source.getPath(file);
-                    var outputFile = output.getPath(file);
-
-                    MoreFiles.createParentDirectories(outputFile);
-                    Files.copy(sourceFile, outputFile, StandardCopyOption.COPY_ATTRIBUTES);
+                    output.addRawArchiveEntry(file.entry(), source.getRawInputStream(file.entry()));
                 }
             }
 

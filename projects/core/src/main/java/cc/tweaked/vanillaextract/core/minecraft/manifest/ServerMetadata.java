@@ -52,11 +52,11 @@ public record ServerMetadata(List<IncludedFile> versions, List<IncludedFile> lib
     /**
      * A file included in this JAR.
      *
-     * @param sha1 The hash of this file.
+     * @param sha256 The hash of this file.
      * @param id   The ID of this file. For versions, this is the version name, for libraries this is the maven
      *             coordinate.
      * @param path The path to this file within the jar.
      */
-    public record IncludedFile(String sha1, String id, String path) {
+    public record IncludedFile(String sha256, String id, String path) {
     }
 }

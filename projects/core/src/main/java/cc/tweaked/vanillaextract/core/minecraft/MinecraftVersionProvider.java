@@ -44,7 +44,7 @@ public final class MinecraftVersionProvider {
         var versionInfo = getManifestVersion(version, downloader, refresh);
         if (versionInfo == null) throw new IllegalArgumentException("Cannot find Minecraft version " + version);
 
-        var versionPath = cachePath.resolve(version).resolve("version.json");
+        var versionPath = cachePath.resolve(version).resolve("version-" + versionInfo.sha1() + ".json");
         versionInfo.downloadTo(versionPath).download(downloader);
 
         return MoreFiles.readJson(versionPath, MinecraftVersion.class);

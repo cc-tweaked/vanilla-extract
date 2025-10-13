@@ -1,5 +1,6 @@
 package cc.tweaked.vanillaextract.core.minecraft;
 
+import cc.tweaked.vanillaextract.core.TestData;
 import cc.tweaked.vanillaextract.core.download.FileDownload;
 import cc.tweaked.vanillaextract.core.minecraft.manifest.MojangUrls;
 import cc.tweaked.vanillaextract.core.support.MirrorDownloader;
@@ -12,11 +13,13 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 public class MinecraftVersionProviderTest {
-    public static final URI URL_1_20_4 = uri("https://piston-meta.mojang.com/v1/packages/c98adde5094a3041f486b4d42d0386cf87310559/1.20.4.json");
-    public static final String SHA_1_20_4 = "c98adde5094a3041f486b4d42d0386cf87310559";
+    private static final URI URL_1_20_4 = uri("https://piston-meta.mojang.com/v1/packages/e2faca08a8d4c3358af4269e8bcea1fbad586df4/1.20.4.json");
+    private static final String SHA_1_20_4 = "e2faca08a8d4c3358af4269e8bcea1fbad586df4";
+    private static final String PATH_1_20_4 = "1.20.4/version-" + SHA_1_20_4 + ".json";
 
     @TempDir
     private Path dir;
@@ -27,17 +30,30 @@ public class MinecraftVersionProviderTest {
         var provider = new MinecraftVersionProvider(dir, downloader);
 
         // First download the file, and check we tried to download both files.
-        provider.getVersion("1.20.4", false);
+        var versionInfo = provider.getVersion("1.20.4", false);
         assertIterableEquals(List.of(
             new FileDownload(uri(MojangUrls.VERSION_MANIFEST), dir.resolve("manifest.json"), null, true),
-            new FileDownload(URL_1_20_4, dir.resolve("1.20.4/version.json"), SHA_1_20_4, false)
+            new FileDownload(URL_1_20_4, dir.resolve(PATH_1_20_4), SHA_1_20_4, false)
         ), downloader.takeDownloads());
 
+        assertEquals(TestData.MC_1_20_4, versionInfo.downloads());
+
         // Try again, and check we didn't try to re-download the manifest.
-        provider.getVersion("1.20.4", false);
+        var newVersionInfo = provider.getVersion("1.20.4", false);
         assertIterableEquals(List.of(
-            new FileDownload(URL_1_20_4, dir.resolve("1.20.4/version.json"), SHA_1_20_4, false)
+            new FileDownload(URL_1_20_4, dir.resolve(PATH_1_20_4), SHA_1_20_4, false)
         ), downloader.takeDownloads());
+
+        assertEquals(versionInfo, newVersionInfo);
+
+        // System.out.println(versionInfo.libraries());
+        for (var lib : versionInfo.libraries()) {
+            System.out.printf(
+                "new Library(new LibraryDownloads(new LibraryArtifact(\"\", \"%s\", %d, \"%s\")), \"%s\", null),\n",
+                lib.downloads().artifact().sha1(), lib.downloads().artifact().size(), lib.downloads().artifact().url(),
+                lib.name()
+            );
+        }
     }
 
     public static URI uri(String uri) {

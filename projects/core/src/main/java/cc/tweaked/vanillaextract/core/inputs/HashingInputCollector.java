@@ -53,7 +53,7 @@ public final class HashingInputCollector implements InputCollector {
     @Override
     public String toString() {
         var builder = new StringBuilder();
-        traceStack.getFirst().toString(builder, 2);
+        traceStack.getFirst().toString(builder, 0);
         return builder.toString();
     }
 

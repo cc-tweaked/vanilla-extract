@@ -6,6 +6,6 @@ group = "com.example"
 version = "1.0"
 
 minecraft {
-    version("1.20.4")
-    unpick("net.fabricmc:yarn:1.20.4+build.3")
+    version("1.21.10")
+    unpick("net.fabricmc:yarn:1.21.10+build.1")
 }

@@ -100,8 +100,9 @@ public record FileDownload(URI uri, Path destination, @Nullable String sha1, boo
          * @param downloader The downloader to use.
          * @throws DownloadException If the download could not complete.
          */
-        public void download(FileDownloader downloader) throws DownloadException {
+        public Path download(FileDownloader downloader) throws DownloadException {
             downloader.download(build());
+            return path;
         }
 
         /**
@@ -109,8 +110,9 @@ public record FileDownload(URI uri, Path destination, @Nullable String sha1, boo
          *
          * @param downloader The downloader to use.
          */
-        public void download(FileDownloader.Scope downloader) {
+        public Path download(FileDownloader.Scope downloader) {
             downloader.download(build());
+            return path;
         }
     }
 }

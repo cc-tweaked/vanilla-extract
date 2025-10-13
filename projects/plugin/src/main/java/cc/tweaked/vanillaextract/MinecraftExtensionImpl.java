@@ -6,10 +6,12 @@ import cc.tweaked.vanillaextract.configurations.MinecraftConfiguration;
 import cc.tweaked.vanillaextract.core.mappings.MappingProvider;
 import cc.tweaked.vanillaextract.core.mappings.MojangMappings;
 import cc.tweaked.vanillaextract.core.mappings.ParchmentMappings;
+import cc.tweaked.vanillaextract.core.unpick.UnpickMetadata;
 import cc.tweaked.vanillaextract.utils.Dependencies;
 import org.gradle.api.Action;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
+import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.artifacts.ModuleDependency;
 import org.gradle.api.artifacts.ResolutionStrategy;
 import org.gradle.api.file.ConfigurableFileCollection;
@@ -19,6 +21,8 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.provider.Provider;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * The concrete implementation of {@link VanillaMinecraftExtension}.
@@ -133,10 +137,24 @@ public abstract class MinecraftExtensionImpl implements VanillaMinecraftExtensio
         getUnpickMappings().fileProvider(Dependencies.getSingleFile(configuration).map(FileSystemLocation::getAsFile));
         getUnpickMappings().disallowChanges();
 
-        // Now add a dependency on the :constants jar. This includes some classes defining additional constants. We
+        // Now add a dependency on the constants jar. This includes some classes defining additional constants. We
         // need on the classpath for Unpick to work, so let's add them in.
-        var constantsDependency = Dependencies.withClassifier(dependency, "constants");
-        project.getDependencies().addProvider(MinecraftConfiguration.COMMON.getCompileConfigurationName(), constantsDependency);
-        project.getDependencies().addProvider(MinecraftConfiguration.CLIENT_ONLY.getCompileConfigurationName(), constantsDependency);
+        // This is a bit awkward, as we can't guarantee the jar is present, so need to return a list of 0-1 items.
+        var constantsDependency = getUnpickMappings().<List<Dependency>>flatMap(unpick -> {
+            UnpickMetadata metadata;
+            try {
+                metadata = UnpickMetadata.fromJar(unpick.getAsFile().toPath());
+            } catch (IOException e) {
+                throw new GradleException("Cannot read unpick metadata", e);
+            }
+
+            return switch (metadata) {
+                case UnpickMetadata.V1 v1 -> Dependencies.withClassifier(dependency, "constants").map(List::of);
+                case UnpickMetadata.V2 v2 -> project.getProviders().provider(
+                    () -> v2.constants() == null ? List.of() : List.of(project.getDependencies().create(v2.constants()))
+                );
+            };
+        });
+        project.getConfigurations().getByName(MinecraftConfiguration.COMMON.getCompileConfigurationName()).getDependencies().addAllLater(constantsDependency);
     }
 }
