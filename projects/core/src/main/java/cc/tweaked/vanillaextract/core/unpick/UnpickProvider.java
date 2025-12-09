@@ -137,7 +137,7 @@ public final class UnpickProvider implements Closeable {
                         new UnpickV2Reader(reader).accept(new UnpickRemapperV2(mappingTree, sourceMappings, MappingNamespaces.WORKSPACE, writer));
                         yield writer.getOutput();
                     }
-                    case "unpick v3" -> {
+                    case "unpick v3", "unpick v4" -> {
                         var writer = new UnpickV3Writer();
                         new UnpickV3Reader(reader).accept(new UnpickRemapperV3(mappingTree, sourceMappings, MappingNamespaces.WORKSPACE, writer));
                         yield writer.getOutput();
