@@ -84,6 +84,6 @@ publishing {
 
 tasks.test {
     useJUnitPlatform {
-        if (properties.containsKey("fast-tests")) excludeTags("slow")
+        if (hasProperty("fast-tests")) excludeTags("slow")
     }
 }

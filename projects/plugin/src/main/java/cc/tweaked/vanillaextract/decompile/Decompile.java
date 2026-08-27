@@ -13,7 +13,7 @@ import java.util.List;
  */
 public final class Decompile {
     private static final String VINEFLOWER_CONFIGURATION_NAME = "vineflower";
-    private static final String VINEFLOWER_VERSION = "1.11.2";
+    private static final String VINEFLOWER_VERSION = "1.12.0";
 
     /**
      * @param project   The current project.

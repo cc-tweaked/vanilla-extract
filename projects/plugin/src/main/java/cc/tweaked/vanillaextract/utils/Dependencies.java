@@ -47,7 +47,6 @@ public final class Dependencies {
 
     private static void setupConfiguration(Configuration configuration, String description) {
         configuration.setDescription(description);
-        configuration.setVisible(false);
         configuration.setCanBeConsumed(false);
         configuration.setCanBeResolved(true);
     }

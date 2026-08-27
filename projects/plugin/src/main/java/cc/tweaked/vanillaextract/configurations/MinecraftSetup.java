@@ -66,13 +66,11 @@ public class MinecraftSetup {
         // Create a new runtime and compile-time configuration for the common/server and client jars.
         for (var config : MinecraftConfiguration.values()) {
             configurations.register(config.getCompileConfigurationName(), c -> {
-                c.setVisible(false);
                 c.setCanBeResolved(true); // Bit nasty, but needed for decompilation.
                 c.setCanBeConsumed(false);
             });
 
             configurations.register(config.getRuntimeConfigurationName(), c -> {
-                c.setVisible(false);
                 c.setCanBeResolved(false);
                 c.setCanBeConsumed(false);
             });
@@ -115,7 +113,6 @@ public class MinecraftSetup {
         // Source sets don't come with an "api" configuration by default. We add a "clientApi" to be consistent with
         // the common source set.
         var clientApi = configurations.create(client.getApiConfigurationName(), c -> {
-            c.setVisible(false);
             c.setCanBeConsumed(false);
             c.setCanBeResolved(false);
         });
@@ -124,7 +121,7 @@ public class MinecraftSetup {
         // The client classes should depend on the common classes.
         project.getDependencies().add(
             client.getImplementationConfigurationName(),
-            Capabilities.commonClasses((ModuleDependency) project.getDependencies().create(project))
+            Capabilities.commonClasses(project.getDependencies().project())
         );
         // Additionally, make client "inherit" main's dependencies, so dependencies declared for the common classes are
         // also available for the client ones.
@@ -133,7 +130,7 @@ public class MinecraftSetup {
         // Do the same for tests, so client and main sources (and dependencies) are available to the test classes.
         project.getDependencies().add(
             test.getImplementationConfigurationName(),
-            Capabilities.clientClasses((ModuleDependency) project.getDependencies().create(project))
+            Capabilities.clientClasses(project.getDependencies().project())
         );
         extendClasspath(test, client);
 
@@ -244,7 +241,6 @@ public class MinecraftSetup {
         Action<? super Configuration> configure
     ) {
         configurations.register(configurationName, c -> {
-            c.setVisible(false);
             c.setCanBeConsumed(true);
             c.setCanBeResolved(false);
 

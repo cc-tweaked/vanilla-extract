@@ -1,20 +1,20 @@
 [versions]
 fabric-accessWidener = "2.1.0"
-fabric-mappingIo = "0.7.1"
-fabric-tinyRemapper = "0.12.0"
+fabric-mappingIo = "0.9.1"
+fabric-tinyRemapper = "0.14.1"
 fabric-unpick = "3.0.0-beta.13"
 
+asm = "9.10.1"
 checkerFramework = "3.42.0"
+commonsCompress = "1.28.0"
 gson = "2.10.1"
 jetbrainsAnnotations = "24.1.0"
 slf4j = "1.7.0"
-commonsCompress = "1.28.0"
 
 # IMPORTANT: Bump in Decompile.java too
-asm = "9.9"
-vineflower = "1.11.2"
+vineflower = "1.12.0"
 
-junit = "5.10.1"
+junit = "6.1.3"
 
 shadow = "9.3.0"
 
@@ -39,13 +39,12 @@ slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 vineflower = { module = "org.vineflower:vineflower", version.ref = "vineflower" }
 
-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
-junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-jupiter-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 
 [bundles]
-test = ["junit-jupiter-api", "junit-jupiter-params"]
-testRuntime = ["junit-jupiter-engine"]
+test = ["junit-jupiter"]
+testRuntime = ["junit-jupiter-launcher"]
 
 # Dependencies
 unshadowedDeps = [

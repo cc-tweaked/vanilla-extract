@@ -2,7 +2,7 @@ plugins {
     `java-library`
 }
 
-val projectVersion: String by extra
+val projectVersion = extra["projectVersion"] as String
 
 group = "cc.tweaked.vanilla-extract"
 version = projectVersion
@@ -15,33 +15,15 @@ java {
     withSourcesJar()
 }
 
-repositories {
-    mavenCentral()
-
-    exclusiveContent {
-        forRepository {
-            maven("https://maven.fabricmc.net/") {
-                name = "Fabric"
-            }
-        }
-
-        filter {
-            includeGroup("net.fabricmc")
-            includeGroup("net.fabricmc.unpick")
-        }
-    }
-}
-
-tasks.withType(AbstractArchiveTask::class.java).configureEach {
-    isPreserveFileTimestamps = false
-    isReproducibleFileOrder = true
-    filePermissions {}
-    dirPermissions {}
-}
-
 tasks.test {
     useJUnitPlatform()
     testLogging {
         events("skipped", "failed")
+    }
+}
+
+sourceSets.all {
+    tasks.named(compileJavaTaskName, JavaCompile::class.java) {
+        options.compilerArgs.add("-Xlint")
     }
 }
